@@ -5,11 +5,23 @@ import { routes } from "./pages/ROUTES";
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        {routes.map((route) => (
-          <Route key={route.path} path={route.path} element={route.element} />
-        ))}
-      </Routes>
+      <header></header>
+      <main>
+        <aside></aside>
+        <section>
+          <Routes>
+            {routes.map((route) => (
+              <Route
+                key={route.path}
+                path={route.path}
+                element={route.element}
+              />
+            ))}
+          </Routes>
+        </section>
+        <aside></aside>
+      </main>
+      <footer></footer>
     </BrowserRouter>
   );
 }
