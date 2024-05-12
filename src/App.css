@@ -1,27 +1,25 @@
 main {
   display: flex;
-  border: 1px solid navy;
-  height: calc(100vh - 100px);
+  min-height: calc(100vh - 154px);
 }
 
 section {
   flex: 10 10 0;
-  border: 1px solid salmon;
 }
 
 aside {
   flex: 3 3 0;
-  border: 1px solid green;
 }
 
 header {
   height: 50px;
-  border: 1px solid red;
+  background-color: #e4e4e4;
 }
 
 footer {
-  height: 50px;
-  border: 1px solid blue;
+  background-color: #e4e4e4;
+  text-align: center;
+  padding: 10px;
 }
 
 @media screen and (max-width: 768px) {

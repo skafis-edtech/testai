@@ -21,7 +21,19 @@ function App() {
         </section>
         <aside></aside>
       </main>
-      <footer></footer>
+      <footer>
+        <p>
+          Mano blog'as bei daugiau įdomių dalykų čia:{" "}
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://www.npw.lt"
+          >
+            npw.lt
+          </a>
+        </p>
+        <p>Paskutinį kartą atnaujinta: 2024-05-13</p>
+      </footer>
     </BrowserRouter>
   );
 }
