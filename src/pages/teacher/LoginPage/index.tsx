@@ -1,33 +1,33 @@
 import { useState } from "react";
 import "./index.css";
 import { useNavigate } from "react-router-dom";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../../services/firebaseConfig";
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  // onAuthStateChanged(auth, (user) => {
-  //   if (user) {
-  //     navigate("/dashboard");
-  //   }
-  // });
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  });
 
-  const loginUser = (event: any) => {
+  const loginUser = async (event: any) => {
     event.preventDefault();
     if (email === "" || password === "") {
       alert("Prašome užpildyti visus laukus");
       return;
     }
-    // try {
-    //   const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    //   alert("Sėkmingai prisijungta!");
-    // } catch (error) {
-    //   console.error("Error logging in: ", error);
-    //   alert("Klaida: " + error.message);
-    // }
-
-    navigate("/dashboard");
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate("/dashboard");
+    } catch (error: any) {
+      console.error("Error logging in: ", error);
+      alert("Klaida: " + error.message);
+    }
   };
 
   return (

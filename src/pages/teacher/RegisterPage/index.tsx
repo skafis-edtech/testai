@@ -1,12 +1,16 @@
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
+import { auth } from "../../../services/firebaseConfig";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage: React.FC = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [terms, setTerms] = useState<boolean>(false);
 
-  const registerUser = (event: any) => {
+  const registerUser = async (event: any) => {
     event.preventDefault();
     if (email === "" || password === "" || confirmPassword === "") {
       alert("Prašome užpildyti visus laukus");
@@ -20,17 +24,14 @@ const RegisterPage: React.FC = () => {
       alert("Prašome sutikti su taisyklėmis");
       return;
     }
-    // try {
-    //   const userCredential = await createUserWithEmailAndPassword(
-    //     auth,
-    //     email,
-    //     password
-    //   );
-    //   alert("Sėkmingai užregistruota!");
-    // } catch (error) {
-    //   console.error("Error registering user: ", error);
-    //   alert("Klaida: " + error.message);
-    // }
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      alert("Sėkmingai užregistruota!");
+      navigate("/login");
+    } catch (error: any) {
+      console.error("Error registering user: ", error);
+      alert("Klaida: " + error.message);
+    }
     alert("Sėkmingai užregistruota!");
   };
 
