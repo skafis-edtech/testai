@@ -1,0 +1,79 @@
+.page-container {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.test-starter-container {
+  background-color: #ffffff;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+h1,
+h2 {
+  color: #2c3e50;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 18px;
+  font-weight: normal;
+  color: #e74c3c;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 16px;
+  color: #7f8c8d;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 15px;
+  margin: 10px 0;
+  border: 2px solid #3498db;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  margin-top: 10px;
+  background-color: #3498db;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+.gotoDashboard {
+  margin-top: 50px;
+  background-color: #2ecc71;
+}
+
+.gotoDashboard:hover {
+  background-color: #27ae60;
+}
+
+button[type="submit"] {
+  background-color: #ffaf61;
+  font-weight: bold;
+}
+
+button[type="submit"]:hover {
+  background-color: #d69350;
+}

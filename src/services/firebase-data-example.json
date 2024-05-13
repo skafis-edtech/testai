@@ -1,0 +1,112 @@
+{
+  "users": {
+    "naglis1134@gmail?com": {
+      "writerEmail": "naglis1134@gmail.com",
+      "tests": {
+        "ABCD": {
+          "lastModified": "2020-05-05T12:00:00.000Z",
+          "test": {
+            "title": "TItle",
+            "description": "grading and stuff... Write ONLY answers",
+            "specialSymbols": "/ ~ ?",
+            "questions": [
+              {
+                "number": "1.1.",
+                "question": "Who are you?",
+                "correctAnswer": "No one",
+                "points": 3,
+                "isAdditional": false
+              }
+            ],
+            "isTestAccessible": false
+          },
+          "grading": {
+            "pointsToGradeStrategy": "STRAIGHTFORWARD | 2LINEAR10",
+            "grades": [
+              {
+                "student": "lknNOHASH",
+                "grade": 9.47,
+                "points": 14,
+                "outOf": 30,
+                "gradedResponses": [
+                  {
+                    "number": "1.",
+                    "answer": "11/15",
+                    "correctAnswer": "11/15 or 0,7(3) or 0.7(3)",
+                    "points": 2,
+                    "outOf": 2,
+                    "isAdditional": false
+                  }
+                ],
+                "additionalPoints": 0,
+                "outOfAdditional": 0
+              }
+            ],
+            "isGradesAccessible": false,
+            "isShowOnlyGrade": false
+          }
+        }
+      }
+    }
+  },
+  "execution": {
+    "ABCD": {
+      "readerEmail": "naglis1134@gmail.com",
+      "fullscreenExits": [
+        {
+          "studentId": "10a1NOHASH",
+          "timestamp": "2020-05-05T12:00:00.000Z"
+        }
+      ],
+      "responses": [
+        {
+          "studentId": "10a1NOHASH",
+          "answers": [{ "number": "1.1.", "answer": "11/15" }],
+          "timestamp": "2020-05-05T12:00:00.000Z"
+        }
+      ],
+      "feedback": [
+        {
+          "studentId": "10a1NOHASH",
+          "feedback": "Dont like it",
+          "timestamp": "2020-05-05T12:00:00.000Z"
+        }
+      ]
+    }
+  },
+  "accessibleTests": {
+    "ABCD": {
+      "name": "TItle",
+      "description": "grading and stuff... Write ONLY answers",
+      "specialSymbols": "/ ~ ?",
+      "questions": [
+        {
+          "number": "1.1.",
+          "question": "Who are you?",
+          "points": 3,
+          "isAdditional": false
+        }
+      ]
+    }
+  },
+  "accessibleGrades": {
+    "ABCD": {
+      "student": "lknNOHASH",
+      "grade": 9.47,
+      "points": 14,
+      "outOf": 30,
+      "gradedResponses": [
+        {
+          "number": "1.",
+          "answer": "11/15",
+          "correctAnswer": "11/15 or 0,7(3) or 0.7(3)",
+          "points": 2,
+          "outOf": 2,
+          "isAdditional": false
+        }
+      ],
+      "additionalPoints": 0,
+      "outOfAdditional": 0
+    }
+  }
+}
