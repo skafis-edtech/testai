@@ -1,0 +1,25 @@
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px; /* Comfortable padding, but less prominent than on the main page */
+  margin: 8px 0;
+  border: 1px solid #bdc3c7;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 14px; /* Standard font size for form inputs */
+}
+
+p {
+  font-size: 14px;
+  color: #7f8c8d;
+  text-align: center; /* Center-align to make it visually balanced */
+}
+
+a {
+  color: #3498db; /* Blue color for links to match button color */
+  text-decoration: none; /* No underline for a cleaner look */
+}
+
+a:hover {
+  text-decoration: underline; /* Underline on hover for better visibility */
+}

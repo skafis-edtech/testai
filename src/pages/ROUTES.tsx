@@ -8,6 +8,7 @@ import LoginPage from "./teacher/LoginPage";
 import LogoutPage from "./teacher/LogoutPage";
 import RecoverPasswordPage from "./teacher/RecoverPasswordPage";
 import RegisterPage from "./teacher/RegisterPage";
+import TermsPage from "./teacher/TermsPage";
 import TestCreateEditPage from "./teacher/TestCreateEditPage";
 import TestDashboardPage from "./teacher/TestDashboardPage";
 
@@ -58,6 +59,11 @@ export const routes: IRoute[] = [
     path: "/register",
     title: "Register",
     element: <RegisterPage />,
+  },
+  {
+    path: "/terms",
+    title: "Taisyklės",
+    element: <TermsPage />,
   },
   {
     path: "/recover-password",

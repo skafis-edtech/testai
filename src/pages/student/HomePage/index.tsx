@@ -29,9 +29,9 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className="page-container">
+    <div className="input-page-container">
       <div className="test-starter-container">
-        <h1>Testavimo aplinka Skafis</h1>
+        <h1>Skafis testavimo aplinka</h1>
         <h2>
           DĖMESIO! Ši Skafis versija nėra pastovi! Nelaikykite platformoje
           ilgalaikių duomenų.
@@ -54,7 +54,9 @@ const HomePage: React.FC = () => {
               }
             }}
           />
-          <button type="submit">Pradėti testą</button>
+          <button type="submit" className="important-button">
+            Pradėti testą
+          </button>
         </form>
         <button onClick={gotoResults}>Pasitikrinti įvertinimą</button>
       </div>

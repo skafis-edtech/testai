@@ -23,7 +23,7 @@ function App() {
       </main>
       <footer>
         <p>
-          Mano blog'as bei daugiau įdomių dalykų čia:{" "}
+          Platformos kūrėjo blog'as bei daugiau įdomių dalykų čia:{" "}
           <a
             target="_blank"
             rel="noopener noreferrer"

@@ -1,0 +1,9 @@
+.terms-page p {
+  text-align: justify;
+  font-size: 16px;
+  color: black;
+}
+
+.terms-page a {
+  color: blue;
+}
