@@ -13,6 +13,7 @@ const LogoutPage: React.FC = () => {
         alert("Klaida atsijungiant: " + error.message);
         console.error("Signout error: " + error.message);
       });
+    //TODO: something here is wrong/not secure
   }, []);
 
   return (

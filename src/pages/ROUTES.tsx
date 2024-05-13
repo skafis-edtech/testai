@@ -76,7 +76,7 @@ export const routes: IRoute[] = [
     element: <GradingPage />,
   },
   {
-    path: "test-dashboard",
+    path: "test-dashboard/:testCode",
     title: "Test Dashboard",
     element: <TestDashboardPage />,
   },
