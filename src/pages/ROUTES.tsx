@@ -76,12 +76,12 @@ export const routes: IRoute[] = [
     element: <GradingPage />,
   },
   {
-    path: "test-dashboard/:testCode",
+    path: "/test-dashboard/:testCode",
     title: "Test Dashboard",
     element: <TestDashboardPage />,
   },
   {
-    path: "test-create-edit",
+    path: "/test-create-edit/:testCode",
     title: "Test Create Edit",
     element: <TestCreateEditPage />,
   },

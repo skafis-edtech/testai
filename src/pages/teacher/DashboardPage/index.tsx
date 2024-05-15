@@ -1,100 +1,146 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, database } from "../../../services/firebaseConfig";
-import { onValue, ref } from "firebase/database";
+import { onValue, ref, set } from "firebase/database";
 import { onAuthStateChanged } from "firebase/auth";
-
-interface Tests {
-  [key: string]: {
-    lastModified: string;
-    test: {
-      title: string;
-      description: string;
-      specialSymbols: string;
-      questions: {
-        number: string;
-        question: string;
-        correctAnswer: string;
-        points: number;
-        isAdditional: boolean;
-      }[];
-      isTestAccessible: boolean;
-    };
-    grading: {
-      pointsToGradeStrategy: string;
-      grades: {
-        student: string;
-        grade: number;
-        points: number;
-        outOf: number;
-        gradedResponses: {
-          number: string;
-          answer: string;
-          correctAnswer: string;
-          points: number;
-          outOf: number;
-          isAdditional: boolean;
-        }[];
-        additionalPoints: number;
-        outOfAdditional: number;
-      }[];
-      isGradesAccessible: boolean;
-      isShowOnlyGrade: boolean;
-    };
-  };
-}
+import { UserData } from "../../../utils/TYPES";
+import "./index.css";
 
 const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
-  const [testList, setTestList] = useState<Tests>({});
+  const [testList, setTestList] = useState<UserData["tests"]>({});
+  const [sortedKeys, setSortedKeys] = useState<string[]>([]);
+  const [email, setEmail] = useState<string>("");
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      const userTestsRef = ref(
-        database,
-        "users/" + user.email?.replace(/\./g, "?") + "/tests"
+  const regex = /^[a-zA-Z]*$/;
+  const [newTestCode, setNewTestCode] = useState<string>("");
+
+  useEffect(() => {
+    if (testList) {
+      const sortedList = Object.keys(testList).sort(
+        (a, b) =>
+          new Date(testList[b].lastModified).getTime() -
+          new Date(testList[a].lastModified).getTime()
       );
-      onValue(userTestsRef, (snapshot) => {
-        const data = snapshot.val();
-        setTestList(data);
-      });
-    } else {
-      navigate("/login");
+      setSortedKeys(sortedList);
     }
-  });
+  }, [testList]);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setEmail(user.email || "");
+        const userTestsRef = ref(
+          database,
+          "users/" + user.email?.replace(/\./g, "?") + "/tests"
+        );
+        onValue(userTestsRef, (snapshot) => {
+          const data = snapshot.val();
+          setTestList(data || {});
+        });
+      } else {
+        navigate("/login");
+      }
+    });
+  }, [navigate]);
+
+  const makeTestPublic = (testId: string) => {
+    alert("This will make it public");
+  };
+
+  const makeTestPrivate = (testId: string) => {
+    alert("This will make it private");
+  };
+
+  const createNewTest = (testId: string) => {
+    if (testId === "") {
+      alert("Įveskite testo kodą");
+      return;
+    }
+    if (testList[testId]) {
+      alert("Toks testas jau egzistuoja");
+      //TODO: check the general test code list
+      return;
+    }
+    const newTestRef = ref(
+      database,
+      "users/" + email?.replace(/\./g, "?") + "/tests/" + testId
+    );
+    set(newTestRef, {
+      lastModified: new Date().toISOString(),
+      test: {
+        title: "Naujas testas",
+        isTestAccessible: false,
+        questions: {},
+      },
+    })
+      .then(() => navigate(`/test-create-edit/${testId}`))
+      .catch((error) => {
+        console.error("Error creating new test: ", error);
+        alert("Klaida: " + error.message);
+      });
+  };
 
   return (
     <div>
-      <h1>Dashboard Page</h1>
+      <h1>Mokytojo aplinka</h1>
+      <div className="email-div">{email}</div>
       <button className="logout-btn" onClick={() => navigate("/logout")}>
         Atsijungti
       </button>
       <div className="dashboard-test-list">
+        <div className="test-list-item new-test-item">
+          <div className="test-title">Kurti naują testą</div>
+          <input
+            type="text"
+            placeholder="Įveskite naujo testo kodą"
+            value={newTestCode}
+            onChange={(e) => {
+              if (regex.test(e.target.value)) {
+                setNewTestCode(e.target.value.toUpperCase());
+              }
+            }}
+          />
+          <button onClick={() => createNewTest(newTestCode)}>
+            Kurti testą
+          </button>
+        </div>
         {testList &&
-          Object.keys(testList).map((key) => {
-            return (
-              <div className="test-list-item" key={key}>
-                <button onClick={() => navigate(`/test-dashboard/${key}`)}>
-                  "{testList[key].test.title}" (kodas: {key})
-                </button>
-                {testList[key].test.isTestAccessible ? (
-                  <>
-                    <p>Viešas</p>
-                    <button onClick={() => alert("This will make it private")}>
-                      Užprivatinti
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <p>Privatus</p>
-                    <button onClick={() => alert("This will make it public")}>
-                      Viešinti
-                    </button>
-                  </>
-                )}
-              </div>
-            );
-          })}
+          sortedKeys.map((key) => (
+            <div className="test-list-item" key={key}>
+              <button
+                className="goto-test-button"
+                onClick={() => navigate(`/test-dashboard/${key}`)}
+              >
+                <div className="test-title">{testList[key].test.title}</div>
+                <div className="test-key">Kodas: {key}</div>
+                <div className="test-date">
+                  Keista: {testList[key].lastModified.slice(0, 10)}
+                </div>
+              </button>
+              {testList[key].test.isTestAccessible ? (
+                <div className="status-container">
+                  <div className="status-public">VIEŠAS</div>
+                  <button
+                    className="make-private-button"
+                    onClick={() => makeTestPrivate(key)}
+                  >
+                    Užprivatinti
+                  </button>
+                </div>
+              ) : (
+                <div className="status-container">
+                  <div className="status-private">PRIVATUS</div>
+                  <button
+                    className="make-public-button"
+                    onClick={() => makeTestPublic(key)}
+                  >
+                    Viešinti
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
       </div>
     </div>
   );

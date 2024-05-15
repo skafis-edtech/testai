@@ -1,112 +1,333 @@
 {
-  "users": {
-    "naglis1134@gmail?com": {
-      "writerEmail": "naglis1134@gmail.com",
-      "tests": {
-        "ABCD": {
-          "lastModified": "2020-05-05T12:00:00.000Z",
-          "test": {
-            "title": "TItle",
-            "description": "grading and stuff... Write ONLY answers",
-            "specialSymbols": "/ ~ ?",
-            "questions": [
-              {
-                "number": "1.1.",
-                "question": "Who are you?",
-                "correctAnswer": "No one",
-                "points": 3,
-                "isAdditional": false
-              }
-            ],
-            "isTestAccessible": false
-          },
-          "grading": {
-            "pointsToGradeStrategy": "STRAIGHTFORWARD | 2LINEAR10",
-            "grades": [
-              {
-                "student": "lknNOHASH",
-                "grade": 9.47,
-                "points": 14,
-                "outOf": 30,
-                "gradedResponses": [
-                  {
-                    "number": "1.",
-                    "answer": "11/15",
-                    "correctAnswer": "11/15 or 0,7(3) or 0.7(3)",
-                    "points": 2,
-                    "outOf": 2,
-                    "isAdditional": false
-                  }
-                ],
-                "additionalPoints": 0,
-                "outOfAdditional": 0
-              }
-            ],
-            "isGradesAccessible": false,
-            "isShowOnlyGrade": false
-          }
+  "testCodesInUse": ["ABCD", "ABCE", "ABCDSAE", "ABCASDE", "ABSACE", "ABDCE"],
+  "accessibleGrades": {
+    "ABCD": {
+      "additionalPoints": 0,
+      "grade": 9.47,
+      "gradedResponses": [
+        {
+          "answer": "11/15",
+          "correctAnswer": "11/15 or 0,7(3) or 0.7(3)",
+          "isAdditional": false,
+          "number": "1.",
+          "outOf": 2,
+          "points": 2
         }
-      }
+      ],
+      "outOf": 30,
+      "outOfAdditional": 0,
+      "points": 14,
+      "student": "lknNOHASH"
+    }
+  },
+  "accessibleTests": {
+    "ABCD": {
+      "description": "grading and stuff... Write ONLY answers",
+      "name": "TItle",
+      "questions": [
+        {
+          "isAdditional": false,
+          "number": "1.1.",
+          "points": 3,
+          "question": "Who are you?"
+        }
+      ],
+      "specialSymbols": "/ ~ ?"
     }
   },
   "execution": {
     "ABCD": {
-      "readerEmail": "naglis1134@gmail.com",
+      "feedback": [
+        {
+          "feedback": "Dont like it",
+          "studentId": "10a1NOHASH",
+          "timestamp": "2020-05-05T12:00:00.000Z"
+        }
+      ],
       "fullscreenExits": [
         {
           "studentId": "10a1NOHASH",
           "timestamp": "2020-05-05T12:00:00.000Z"
         }
       ],
+      "readerEmail": "naglis1134@gmail.com",
       "responses": [
         {
+          "answers": [
+            {
+              "answer": "11/15",
+              "number": "1.1."
+            }
+          ],
           "studentId": "10a1NOHASH",
-          "answers": [{ "number": "1.1.", "answer": "11/15" }],
-          "timestamp": "2020-05-05T12:00:00.000Z"
-        }
-      ],
-      "feedback": [
-        {
-          "studentId": "10a1NOHASH",
-          "feedback": "Dont like it",
           "timestamp": "2020-05-05T12:00:00.000Z"
         }
       ]
     }
   },
-  "accessibleTests": {
-    "ABCD": {
-      "name": "TItle",
-      "description": "grading and stuff... Write ONLY answers",
-      "specialSymbols": "/ ~ ?",
-      "questions": [
-        {
-          "number": "1.1.",
-          "question": "Who are you?",
-          "points": 3,
-          "isAdditional": false
+  "users": {
+    "naglis1134@gmail?com": {
+      "tests": {
+        "ABCD": {
+          "grading": {
+            "grades": [
+              {
+                "additionalPoints": 0,
+                "grade": 9.47,
+                "gradedResponses": [
+                  {
+                    "answer": "11/15",
+                    "correctAnswer": "11/15 or 0,7(3) or 0.7(3)",
+                    "isAdditional": false,
+                    "number": "1.",
+                    "outOf": 2,
+                    "points": 2
+                  }
+                ],
+                "outOf": 30,
+                "outOfAdditional": 0,
+                "points": 14,
+                "student": "lknNOHASH"
+              }
+            ],
+            "isGradesAccessible": false,
+            "isShowOnlyGrade": false,
+            "pointsToGradeStrategy": "STRAIGHTFORWARD | 2LINEAR10"
+          },
+          "lastModified": "2020-05-05T12:00:00.000Z",
+          "test": {
+            "description": "grading and stuff... Write ONLY answers",
+            "isTestAccessible": true,
+            "questions": [
+              {
+                "correctAnswer": "No one",
+                "isAdditional": false,
+                "number": "1.1.",
+                "points": 3,
+                "question": "Who are you?"
+              }
+            ],
+            "specialSymbols": "/ ~ ?",
+            "title": "Stereometrija 10 kl."
+          }
+        },
+        "ABCE": {
+          "grading": {
+            "grades": [
+              {
+                "additionalPoints": 0,
+                "grade": 9.47,
+                "gradedResponses": [
+                  {
+                    "answer": "11/15",
+                    "correctAnswer": "11/15 or 0,7(3) or 0.7(3)",
+                    "isAdditional": false,
+                    "number": "1.",
+                    "outOf": 2,
+                    "points": 2
+                  }
+                ],
+                "outOf": 30,
+                "outOfAdditional": 0,
+                "points": 14,
+                "student": "lknNOHASH"
+              }
+            ],
+            "isGradesAccessible": false,
+            "isShowOnlyGrade": false,
+            "pointsToGradeStrategy": "STRAIGHTFORWARD | 2LINEAR10"
+          },
+          "lastModified": "2020-05-05T12:00:00.000Z",
+          "test": {
+            "description": "grading and stuff... Write ONLY answers",
+            "isTestAccessible": false,
+            "questions": [
+              {
+                "correctAnswer": "No one",
+                "isAdditional": false,
+                "number": "1.1.",
+                "points": 3,
+                "question": "Who are you?"
+              }
+            ],
+            "specialSymbols": "/ ~ ?",
+            "title": "Stereometrija 10 kl."
+          }
+        },
+        "ABCDSAE": {
+          "grading": {
+            "grades": [
+              {
+                "additionalPoints": 0,
+                "grade": 9.47,
+                "gradedResponses": [
+                  {
+                    "answer": "11/15",
+                    "correctAnswer": "11/15 or 0,7(3) or 0.7(3)",
+                    "isAdditional": false,
+                    "number": "1.",
+                    "outOf": 2,
+                    "points": 2
+                  }
+                ],
+                "outOf": 30,
+                "outOfAdditional": 0,
+                "points": 14,
+                "student": "lknNOHASH"
+              }
+            ],
+            "isGradesAccessible": false,
+            "isShowOnlyGrade": false,
+            "pointsToGradeStrategy": "STRAIGHTFORWARD | 2LINEAR10"
+          },
+          "lastModified": "2020-05-05T12:00:00.000Z",
+          "test": {
+            "description": "grading and stuff... Write ONLY answers",
+            "isTestAccessible": false,
+            "questions": [
+              {
+                "correctAnswer": "No one",
+                "isAdditional": false,
+                "number": "1.1.",
+                "points": 3,
+                "question": "Who are you?"
+              }
+            ],
+            "specialSymbols": "/ ~ ?",
+            "title": "Stereometrija 10 kl."
+          }
+        },
+        "ABCASDE": {
+          "grading": {
+            "grades": [
+              {
+                "additionalPoints": 0,
+                "grade": 9.47,
+                "gradedResponses": [
+                  {
+                    "answer": "11/15",
+                    "correctAnswer": "11/15 or 0,7(3) or 0.7(3)",
+                    "isAdditional": false,
+                    "number": "1.",
+                    "outOf": 2,
+                    "points": 2
+                  }
+                ],
+                "outOf": 30,
+                "outOfAdditional": 0,
+                "points": 14,
+                "student": "lknNOHASH"
+              }
+            ],
+            "isGradesAccessible": false,
+            "isShowOnlyGrade": false,
+            "pointsToGradeStrategy": "STRAIGHTFORWARD | 2LINEAR10"
+          },
+          "lastModified": "2020-05-05T12:00:00.000Z",
+          "test": {
+            "description": "grading and stuff... Write ONLY answers",
+            "isTestAccessible": false,
+            "questions": [
+              {
+                "correctAnswer": "No one",
+                "isAdditional": false,
+                "number": "1.1.",
+                "points": 3,
+                "question": "Who are you?"
+              }
+            ],
+            "specialSymbols": "/ ~ ?",
+            "title": "Stereometrija 10 kl."
+          }
+        },
+        "ABSACE": {
+          "grading": {
+            "grades": [
+              {
+                "additionalPoints": 0,
+                "grade": 9.47,
+                "gradedResponses": [
+                  {
+                    "answer": "11/15",
+                    "correctAnswer": "11/15 or 0,7(3) or 0.7(3)",
+                    "isAdditional": false,
+                    "number": "1.",
+                    "outOf": 2,
+                    "points": 2
+                  }
+                ],
+                "outOf": 30,
+                "outOfAdditional": 0,
+                "points": 14,
+                "student": "lknNOHASH"
+              }
+            ],
+            "isGradesAccessible": false,
+            "isShowOnlyGrade": false,
+            "pointsToGradeStrategy": "STRAIGHTFORWARD | 2LINEAR10"
+          },
+          "lastModified": "2020-05-05T12:00:00.000Z",
+          "test": {
+            "description": "grading and stuff... Write ONLY answers",
+            "isTestAccessible": false,
+            "questions": [
+              {
+                "correctAnswer": "No one",
+                "isAdditional": false,
+                "number": "1.1.",
+                "points": 3,
+                "question": "Who are you?"
+              }
+            ],
+            "specialSymbols": "/ ~ ?",
+            "title": "Stereometrija 10 kl."
+          }
+        },
+        "ABDCE": {
+          "grading": {
+            "grades": [
+              {
+                "additionalPoints": 0,
+                "grade": 9.47,
+                "gradedResponses": [
+                  {
+                    "answer": "11/15",
+                    "correctAnswer": "11/15 or 0,7(3) or 0.7(3)",
+                    "isAdditional": false,
+                    "number": "1.",
+                    "outOf": 2,
+                    "points": 2
+                  }
+                ],
+                "outOf": 30,
+                "outOfAdditional": 0,
+                "points": 14,
+                "student": "lknNOHASH"
+              }
+            ],
+            "isGradesAccessible": false,
+            "isShowOnlyGrade": false,
+            "pointsToGradeStrategy": "STRAIGHTFORWARD | 2LINEAR10"
+          },
+          "lastModified": "2020-05-05T12:00:00.000Z",
+          "test": {
+            "description": "grading and stuff... Write ONLY answers",
+            "isTestAccessible": false,
+            "questions": [
+              {
+                "correctAnswer": "No one",
+                "isAdditional": false,
+                "number": "1.1.",
+                "points": 3,
+                "question": "Who are you?"
+              }
+            ],
+            "specialSymbols": "/ ~ ?",
+            "title": "Stereometrija 10 kl."
+          }
         }
-      ]
-    }
-  },
-  "accessibleGrades": {
-    "ABCD": {
-      "student": "lknNOHASH",
-      "grade": 9.47,
-      "points": 14,
-      "outOf": 30,
-      "gradedResponses": [
-        {
-          "number": "1.",
-          "answer": "11/15",
-          "correctAnswer": "11/15 or 0,7(3) or 0.7(3)",
-          "points": 2,
-          "outOf": 2,
-          "isAdditional": false
-        }
-      ],
-      "additionalPoints": 0,
-      "outOfAdditional": 0
+      },
+      "writerEmail": "naglis1134@gmail.com"
     }
   }
 }

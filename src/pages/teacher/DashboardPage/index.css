@@ -1,0 +1,124 @@
+.logout-btn {
+  display: block;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px 20px 40px auto;
+  transition: background-color 0.3s ease;
+
+  width: 200px;
+}
+
+.email-div {
+  margin: 40px 20px 0 auto;
+  width: 300px;
+  font-size: 1.2em;
+  text-align: right;
+}
+
+.logout-btn:hover {
+  background-color: #2980b9;
+}
+
+.dashboard-test-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.test-list-item {
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 10px;
+  width: 300px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.new-test-item {
+  border: 2px dashed #3498db;
+  background-color: #dadada;
+}
+
+.goto-test-button {
+  background-color: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  margin-bottom: 20px;
+  margin-top: 0;
+}
+
+.goto-test-button:hover {
+  background-color: #d6d6d6;
+}
+
+.test-title {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.test-key {
+  font-size: 1em;
+  color: #777;
+}
+
+.test-date {
+  font-size: 0.5em;
+  color: black;
+  margin-top: 10px;
+}
+
+.status-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-public {
+  font-weight: 900;
+  color: #ff9800; /* Orange for public */
+  border-left: 5px solid #607d8b;
+  padding: 10px;
+}
+
+.status-private {
+  color: #607d8b; /* Blue-gray for private */
+  border-left: 5px solid #607d8b;
+  padding: 10px;
+}
+
+.make-private-button,
+.make-public-button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  font-size: 0.9em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100px;
+}
+
+.make-private-button {
+  background-color: #b80000;
+}
+
+.make-private-button:hover {
+  background-color: #910000;
+}
+
+.make-public-button {
+  background-color: #21c700;
+}
+
+.make-public-button:hover {
+  background-color: #1ca800;
+}

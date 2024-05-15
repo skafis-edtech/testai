@@ -7,3 +7,7 @@
 .terms-page a {
   color: blue;
 }
+
+.terms-page {
+  margin: 20px;
+}

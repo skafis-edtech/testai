@@ -5,7 +5,9 @@ import { routes } from "./pages/ROUTES";
 function App() {
   return (
     <BrowserRouter>
-      <header></header>
+      <header>
+        <div>Skafis testavimo platforma</div>
+      </header>
       <main>
         <aside></aside>
         <section>

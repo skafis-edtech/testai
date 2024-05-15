@@ -5,6 +5,9 @@ main {
 
 section {
   flex: 10 10 0;
+  background-color: #e4e4e4;
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 aside {
@@ -14,7 +17,14 @@ aside {
 header {
   height: 50px;
   background-color: #e4e4e4;
-  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+
+header div {
+  margin: auto;
+  font-size: larger;
 }
 
 footer {
