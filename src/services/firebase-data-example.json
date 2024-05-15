@@ -2,26 +2,32 @@
   "testCodesInUse": ["ABCD", "ABCE", "ABCDSAE", "ABCASDE", "ABSACE", "ABDCE"],
   "accessibleGrades": {
     "ABCD": {
-      "additionalPoints": 0,
-      "grade": 9.47,
-      "gradedResponses": [
+      "writerEmail": "naglis1134@gmail.com",
+      "grades": [
         {
-          "answer": "11/15",
-          "correctAnswer": "11/15 or 0,7(3) or 0.7(3)",
-          "isAdditional": false,
-          "number": "1.",
-          "outOf": 2,
-          "points": 2
+          "additionalPoints": 0,
+          "grade": 9.47,
+          "gradedResponses": [
+            {
+              "answer": "11/15",
+              "correctAnswer": "11/15 or 0,7(3) or 0.7(3)",
+              "isAdditional": false,
+              "number": "1.",
+              "outOf": 2,
+              "points": 2
+            }
+          ],
+          "outOf": 30,
+          "outOfAdditional": 0,
+          "points": 14,
+          "student": "lknNOHASH"
         }
-      ],
-      "outOf": 30,
-      "outOfAdditional": 0,
-      "points": 14,
-      "student": "lknNOHASH"
+      ]
     }
   },
   "accessibleTests": {
     "ABCD": {
+      "writerEmail": "naglis1134@gmail.com",
       "description": "grading and stuff... Write ONLY answers",
       "name": "TItle",
       "questions": [

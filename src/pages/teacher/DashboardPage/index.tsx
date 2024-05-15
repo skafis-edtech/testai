@@ -11,6 +11,7 @@ const DashboardPage: React.FC = () => {
   const [testList, setTestList] = useState<UserData["tests"]>({});
   const [sortedKeys, setSortedKeys] = useState<string[]>([]);
   const [email, setEmail] = useState<string>("");
+  const [usedTestCodes, setUsedTestCodes] = useState<string[]>([]);
 
   const regex = /^[a-zA-Z]*$/;
   const [newTestCode, setNewTestCode] = useState<string>("");
@@ -42,14 +43,20 @@ const DashboardPage: React.FC = () => {
         navigate("/login");
       }
     });
+
+    const testCodesInUseRef = ref(database, "testCodesInUse");
+    onValue(testCodesInUseRef, (snapshot) => {
+      const data = snapshot.val();
+      setUsedTestCodes(data || []);
+    });
   }, [navigate]);
 
   const makeTestPublic = (testId: string) => {
-    alert("This will make it public");
+    alert("This will make it public" + testId);
   };
 
   const makeTestPrivate = (testId: string) => {
-    alert("This will make it private");
+    alert("This will make it private" + testId);
   };
 
   const createNewTest = (testId: string) => {
@@ -57,9 +64,8 @@ const DashboardPage: React.FC = () => {
       alert("Įveskite testo kodą");
       return;
     }
-    if (testList[testId]) {
-      alert("Toks testas jau egzistuoja");
-      //TODO: check the general test code list
+    if (usedTestCodes.includes(testId)) {
+      alert("Toks testo kodas jau egzistuoja");
       return;
     }
     const newTestRef = ref(
@@ -74,7 +80,14 @@ const DashboardPage: React.FC = () => {
         questions: {},
       },
     })
-      .then(() => navigate(`/test-create-edit/${testId}`))
+      .then(() => {
+        set(ref(database, "testCodesInUse"), [...usedTestCodes, testId])
+          .then(() => navigate(`/test-create-edit/${testId}`))
+          .catch((error) => {
+            console.error("Error updating testCodesInUse: ", error);
+            alert("Klaida: " + error.message);
+          });
+      })
       .catch((error) => {
         console.error("Error creating new test: ", error);
         alert("Klaida: " + error.message);

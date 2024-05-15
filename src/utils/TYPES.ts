@@ -66,6 +66,7 @@ export interface Execution {
 
 export interface AccessibleTest {
   name: string;
+  writerEmail: string;
   description: string;
   specialSymbols: string;
   questions: {
@@ -77,20 +78,23 @@ export interface AccessibleTest {
 }
 
 export interface AccessibleGrade {
-  student: string;
-  grade: number;
-  points: number;
-  outOf: number;
-  gradedResponses: {
-    number: string;
-    answer: string;
-    correctAnswer: string;
+  writerEmail: string;
+  grades: {
+    student: string;
+    grade: number;
     points: number;
     outOf: number;
-    isAdditional: boolean;
+    gradedResponses: {
+      number: string;
+      answer: string;
+      correctAnswer: string;
+      points: number;
+      outOf: number;
+      isAdditional: boolean;
+    }[];
+    additionalPoints: number;
+    outOfAdditional: number;
   }[];
-  additionalPoints: number;
-  outOfAdditional: number;
 }
 
 // interface FirebaseData {
@@ -104,4 +108,5 @@ export interface AccessibleGrade {
 //   accessibleGrades: {
 //     [testId: string]: AccessibleGrade;
 //   };
+//   testCodesInUse: string[];
 // }
