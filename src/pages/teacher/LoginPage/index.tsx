@@ -41,12 +41,14 @@ const LoginPage: React.FC = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Įveskite el. paštą"
+          required
         />
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Įveskite slaptažodį"
+          required
         />
         <button className="simple-submit" type="submit">
           Prisijungti

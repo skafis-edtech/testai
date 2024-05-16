@@ -1,0 +1,30 @@
+#specialSymbols {
+  font-size: 50px;
+}
+
+.num-btn {
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+}
+
+.remove-question-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px 20px 40px auto;
+  transition: background-color 0.3s ease;
+  width: 200px;
+}
+
+.remove-question-btn:hover {
+  background-color: #c0392b;
+}
+
+#question-number-input {
+  width: 80px;
+}

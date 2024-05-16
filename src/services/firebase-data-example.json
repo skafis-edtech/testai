@@ -179,7 +179,8 @@
                 "outOf": 30,
                 "outOfAdditional": 0,
                 "points": 14,
-                "student": "lknNOHASH"
+                "student": "lknNOHASH",
+                "teacherComment": "You are the best!"
               }
             ],
             "isGradesAccessible": false,
@@ -227,7 +228,8 @@
             ],
             "isGradesAccessible": false,
             "isShowOnlyGrade": false,
-            "pointsToGradeStrategy": "STRAIGHTFORWARD | 2LINEAR10"
+            "pointsToGradeStrategy": "STRAIGHTFORWARD | 2LINEAR10",
+            "teacherComment": "You are the best!"
           },
           "lastModified": "2020-05-05T12:00:00.000Z",
           "test": {
@@ -265,7 +267,8 @@
                 "outOf": 30,
                 "outOfAdditional": 0,
                 "points": 14,
-                "student": "lknNOHASH"
+                "student": "lknNOHASH",
+                "teacherComment": "You are the best!"
               }
             ],
             "isGradesAccessible": false,

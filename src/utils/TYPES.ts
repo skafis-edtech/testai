@@ -33,6 +33,7 @@ export interface UserData {
           }[];
           additionalPoints: number;
           outOfAdditional: number;
+          teacherComment: string;
         }[];
         isGradesAccessible: boolean;
         isShowOnlyGrade: boolean;
@@ -94,6 +95,7 @@ export interface AccessibleGrade {
     }[];
     additionalPoints: number;
     outOfAdditional: number;
+    teacherComment: string;
   }[];
 }
 

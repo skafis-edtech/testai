@@ -4,6 +4,7 @@ import { UserData } from "../../../utils/TYPES";
 import { get, ref, set } from "firebase/database";
 import { database } from "../../../services/firebaseConfig";
 import { useAuth } from "../../../context/AuthContext";
+import "./index.css";
 
 const TestCreateEditPage: React.FC = () => {
   const { testCode } = useParams();
@@ -13,6 +14,7 @@ const TestCreateEditPage: React.FC = () => {
   );
   const { currentUser } = useAuth();
   const [loading, setLoading] = useState(true);
+  const [soonDeleted, setSoonDeleted] = useState<number>(-1);
 
   useEffect(() => {
     if (!currentUser) return;
@@ -49,7 +51,7 @@ const TestCreateEditPage: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className="input-page-container">
       <h1>Testo redagavimas</h1>
       <p>Informacija išsisaugo iškart beredaguojant</p>
       <h3 className="text-in-the-center">Testo kodas: {testCode}</h3>
@@ -65,7 +67,9 @@ const TestCreateEditPage: React.FC = () => {
           }))
         }
       />
-      <h3 className="text-in-the-center">Testo aprašymas:</h3>
+      <h3 className="text-in-the-center">
+        Testo aprašymas (žinutė mokiniams):
+      </h3>
       <textarea
         name="description"
         value={testData?.test?.description || ""}
@@ -76,10 +80,11 @@ const TestCreateEditPage: React.FC = () => {
           }))
         }
       ></textarea>
-      <h3 className="text-in-the-center">Specialūs simboliai:</h3>
+      <h3 className="text-in-the-center">Specialūs simboliai kopijavimui:</h3>
       <input
         type="text"
         name="specialSymbols"
+        id="specialSymbols"
         value={testData?.test?.specialSymbols || ""}
         onChange={(e) =>
           setTestData((prev) => ({
@@ -89,8 +94,194 @@ const TestCreateEditPage: React.FC = () => {
         }
       />
       <h3 className="text-in-the-center">Klausimai:</h3>
+      {testData?.test?.questions?.map((question, index) => (
+        <div
+          key={index}
+          style={{
+            backgroundColor: soonDeleted === index ? "red" : "transparent",
+          }}
+        >
+          <div>
+            <label>Klausimo numeris:</label>
+            <br />
+            <input
+              id="question-number-input"
+              value={question.number}
+              onChange={(e) => {
+                setTestData((prev) => {
+                  const newQuestions = [...prev.test.questions];
+                  newQuestions[index].number = e.target.value;
+                  return {
+                    ...prev,
+                    test: { ...prev.test, questions: newQuestions },
+                  };
+                });
+              }}
+              type="text"
+              name="number"
+            />
+          </div>
+          <div>
+            <label>Klausimas:</label>
+            <br />
+            <textarea
+              value={question.question}
+              onChange={(e) => {
+                setTestData((prev) => {
+                  const newQuestions = [...prev.test.questions];
+                  newQuestions[index].question = e.target.value;
+                  return {
+                    ...prev,
+                    test: { ...prev.test, questions: newQuestions },
+                  };
+                });
+              }}
+              name="question"
+            ></textarea>
+          </div>
+          <div>
+            <label>
+              Teisingas atsakymas / sprendimas (nevertinama automatiškai):
+            </label>
+            <br />
+            <textarea
+              value={question.correctAnswer}
+              onChange={(e) => {
+                setTestData((prev) => {
+                  const newQuestions = [...prev.test.questions];
+                  newQuestions[index].correctAnswer = e.target.value;
+                  return {
+                    ...prev,
+                    test: { ...prev.test, questions: newQuestions },
+                  };
+                });
+              }}
+              name="correctAnswer"
+            ></textarea>
+          </div>
+          <div>
+            <label>Taškai:</label>
+            <br />
+            <span>
+              {[1, 2, 3].map((num) => (
+                <button
+                  key={num}
+                  className="num-btn"
+                  onClick={() => {
+                    setTestData((prev) => {
+                      const newQuestions = [...prev.test.questions];
+                      newQuestions[index].points = num;
+                      return {
+                        ...prev,
+                        test: { ...prev.test, questions: newQuestions },
+                      };
+                    });
+                  }}
+                >
+                  {num}
+                </button>
+              ))}
+              <input
+                type="number"
+                name="points"
+                min="1"
+                max="9"
+                value={question.points}
+                onChange={(e) => {
+                  if (
+                    (Number(e.target.value) < 10 &&
+                      Number(e.target.value) > 0) ||
+                    e.target.value === ""
+                  ) {
+                    setTestData((prev) => {
+                      const newQuestions = [...prev.test.questions];
+                      newQuestions[index].points = Number(e.target.value);
+                      return {
+                        ...prev,
+                        test: { ...prev.test, questions: newQuestions },
+                      };
+                    });
+                  }
+                }}
+              />
+            </span>
+          </div>
+          <div>
+            <label>Užduotis yra papildoma:</label>
+            <br />
+            <input
+              type="checkbox"
+              value={question.isAdditional ? "true" : "false"}
+              onChange={(e) => {
+                setTestData((prev) => {
+                  const newQuestions = [...prev.test.questions];
+                  newQuestions[index].isAdditional = e.target.checked;
+                  return {
+                    ...prev,
+                    test: { ...prev.test, questions: newQuestions },
+                  };
+                });
+              }}
+              name="isAdditional"
+            />
+          </div>
+          {testData.test.questions.length > 1 && (
+            <button
+              className="remove-question-btn"
+              onClick={() => {
+                setTestData((prev) => {
+                  const newQuestions = [...prev.test.questions];
+                  newQuestions.splice(index, 1);
+                  return {
+                    ...prev,
+                    test: { ...prev.test, questions: newQuestions },
+                  };
+                });
+                setSoonDeleted(-1);
+              }}
+              onMouseEnter={() => setSoonDeleted(index)}
+              onMouseLeave={() => setSoonDeleted(-1)}
+            >
+              Pašalinti klausimą
+            </button>
+          )}
+          <hr />
+        </div>
+      ))}
+      <button
+        onClick={() => {
+          setTestData((prev) => ({
+            ...prev,
+            test: {
+              ...prev.test,
+              questions: [
+                ...prev.test.questions,
+                {
+                  number: "",
+                  question: "",
+                  correctAnswer: "",
+                  points: 1,
+                  isAdditional: false,
+                },
+              ],
+            },
+          }));
+        }}
+        style={{ marginTop: "20px", backgroundColor: "green" }}
+      >
+        Pridėti klausimą
+      </button>
 
-      <button onClick={() => navigate(-1)}>Grįžti</button>
+      <button
+        style={{
+          marginTop: "50px",
+          marginBottom: "50px",
+          width: "400px",
+        }}
+        onClick={() => navigate(-1)}
+      >
+        Grįžti (viskas išsisaugoję automatiškai)
+      </button>
     </div>
   );
 };

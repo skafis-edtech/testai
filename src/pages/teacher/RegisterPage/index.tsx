@@ -45,23 +45,27 @@ const RegisterPage: React.FC = () => {
           onChange={(e) => setEmail(e.target.value)}
           pattern="[^?]*"
           placeholder="Įveskite el. paštą"
+          required
         />
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Įveskite slaptažodį"
+          required
         />
         <input
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           placeholder="Pakartokite slaptažodį"
+          required
         />
         <input
           type="checkbox"
           value={terms.toString()}
           onChange={(e) => setTerms(e.target.checked)}
+          required
         />
         <label>
           Sutinku su{" "}

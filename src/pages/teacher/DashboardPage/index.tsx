@@ -70,7 +70,15 @@ const DashboardPage: React.FC = () => {
       test: {
         title: "Naujas testas",
         isTestAccessible: false,
-        questions: {},
+        questions: [
+          {
+            number: "",
+            question: "",
+            correctAnswer: "",
+            points: 1,
+            isAdditional: false,
+          },
+        ],
       },
     })
       .then(() => {
