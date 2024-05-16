@@ -40,12 +40,14 @@ const HomePage: React.FC = () => {
         <form onSubmit={gotoTest}>
           <input
             type="text"
+            name="studentId"
             placeholder="Įveskite savo ID"
             value={studentId}
             onChange={(e) => setStudentId(e.target.value)}
           />
           <input
             type="text"
+            name="testCode"
             placeholder="Įveskite testo kodą"
             value={testCode}
             onChange={(e) => {
