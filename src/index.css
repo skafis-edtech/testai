@@ -90,3 +90,7 @@ button:hover {
   margin: 0 auto;
   padding-top: 10vh;
 }
+
+.text-in-the-center {
+  text-align: center;
+}
