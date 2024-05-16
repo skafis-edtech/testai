@@ -1,29 +1,18 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { UserData } from "../../../utils/TYPES";
-import { onValue, ref } from "firebase/database";
-import { auth, database } from "../../../services/firebaseConfig";
-import { onAuthStateChanged } from "firebase/auth";
 
 const TestCreateEditPage: React.FC = () => {
   const testCode = useParams().testCode as string;
   const [testData, setTestData] = useState<UserData["tests"][string]>(
     {} as UserData["tests"][string]
   );
-  const navigate = useNavigate();
 
   useEffect(() => {
-    //TODO: something wrong here
-    console.log("here");
-
-    const refUri = "users/" + "kjn".replace(/\./g, "?") + "/tests/" + testCode;
-    console.log(refUri);
-    const userTestsRef = ref(database, refUri);
-    onValue(userTestsRef, (snapshot) => {
-      const data = snapshot.val();
-      setTestData(data || {});
-    });
-  }, []);
+    setTestData({
+      lastModified: "2024-01-01t00:00:00.000z",
+    } as UserData["tests"][string]);
+  }, [testCode]);
 
   return (
     <div>

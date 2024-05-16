@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
 import "./index.css";
 import { useNavigate } from "react-router-dom";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../services/firebaseConfig";
+import { useAuth } from "../../../context/AuthContext";
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const { currentUser } = useAuth();
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        navigate("/dashboard");
-      }
-    });
+    if (currentUser) {
+      navigate("/dashboard");
+    }
   }, [navigate]);
 
   const loginUser = async (event: any) => {

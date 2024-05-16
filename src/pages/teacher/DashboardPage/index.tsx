@@ -5,13 +5,14 @@ import { onValue, ref, set } from "firebase/database";
 import { onAuthStateChanged } from "firebase/auth";
 import { UserData } from "../../../utils/TYPES";
 import "./index.css";
+import { useAuth } from "../../../context/AuthContext";
 
 const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
   const [testList, setTestList] = useState<UserData["tests"]>({});
   const [sortedKeys, setSortedKeys] = useState<string[]>([]);
-  const [email, setEmail] = useState<string>("");
   const [usedTestCodes, setUsedTestCodes] = useState<string[]>([]);
+  const { currentUser } = useAuth();
 
   const regex = /^[a-zA-Z]*$/;
   const [newTestCode, setNewTestCode] = useState<string>("");
@@ -28,20 +29,13 @@ const DashboardPage: React.FC = () => {
   }, [testList]);
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setEmail(user.email || "");
-        const userTestsRef = ref(
-          database,
-          "users/" + user.email?.replace(/\./g, "?") + "/tests"
-        );
-        onValue(userTestsRef, (snapshot) => {
-          const data = snapshot.val();
-          setTestList(data || {});
-        });
-      } else {
-        navigate("/login");
-      }
+    const userTestsRef = ref(
+      database,
+      "users/" + currentUser?.email?.replace(/\./g, "?") + "/tests"
+    );
+    onValue(userTestsRef, (snapshot) => {
+      const data = snapshot.val();
+      setTestList(data || {});
     });
 
     const testCodesInUseRef = ref(database, "testCodesInUse");
@@ -70,7 +64,7 @@ const DashboardPage: React.FC = () => {
     }
     const newTestRef = ref(
       database,
-      "users/" + email?.replace(/\./g, "?") + "/tests/" + testId
+      "users/" + currentUser?.email?.replace(/\./g, "?") + "/tests/" + testId
     );
     set(newTestRef, {
       lastModified: new Date().toISOString(),
@@ -97,7 +91,7 @@ const DashboardPage: React.FC = () => {
   return (
     <div>
       <h1>Mokytojo aplinka</h1>
-      <div className="email-div">{email}</div>
+      <div className="email-div">{currentUser?.email || "Kraunasi..."}</div>
       <button className="logout-btn" onClick={() => navigate("/logout")}>
         Atsijungti
       </button>

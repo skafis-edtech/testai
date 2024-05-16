@@ -18,7 +18,35 @@ export interface IRoute {
   element: JSX.Element;
 }
 
-export const routes: IRoute[] = [
+export const privateRoutes: IRoute[] = [
+  {
+    path: "/dashboard",
+    title: "Dashboard",
+    element: <DashboardPage />,
+  },
+  {
+    path: "/logout",
+    title: "Logout",
+    element: <LogoutPage />,
+  },
+  {
+    path: "/grading",
+    title: "Grading",
+    element: <GradingPage />,
+  },
+  {
+    path: "/test-dashboard/:testCode",
+    title: "Test Dashboard",
+    element: <TestDashboardPage />,
+  },
+  {
+    path: "/test-create-edit/:testCode",
+    title: "Test Create Edit",
+    element: <TestCreateEditPage />,
+  },
+];
+
+export const publicRoutes: IRoute[] = [
   {
     path: "/",
     title: "Home",
@@ -41,19 +69,9 @@ export const routes: IRoute[] = [
   },
 
   {
-    path: "/dashboard",
-    title: "Dashboard",
-    element: <DashboardPage />,
-  },
-  {
     path: "/login",
     title: "Login",
     element: <LoginPage />,
-  },
-  {
-    path: "/logout",
-    title: "Logout",
-    element: <LogoutPage />,
   },
   {
     path: "/register",
@@ -70,21 +88,7 @@ export const routes: IRoute[] = [
     title: "Recover Password",
     element: <RecoverPasswordPage />,
   },
-  {
-    path: "/grading",
-    title: "Grading",
-    element: <GradingPage />,
-  },
-  {
-    path: "/test-dashboard/:testCode",
-    title: "Test Dashboard",
-    element: <TestDashboardPage />,
-  },
-  {
-    path: "/test-create-edit/:testCode",
-    title: "Test Create Edit",
-    element: <TestCreateEditPage />,
-  },
+
   {
     path: "*",
     title: "Not Found",
@@ -95,3 +99,5 @@ export const routes: IRoute[] = [
     ),
   },
 ];
+
+export const routes: IRoute[] = [...privateRoutes, ...publicRoutes];
