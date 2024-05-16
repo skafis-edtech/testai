@@ -6,7 +6,9 @@ function App() {
   return (
     <BrowserRouter>
       <header>
-        <div>Skafis testavimo platforma</div>
+        <div>
+          <a href="/">Skafis testavimo platforma</a>
+        </div>
       </header>
       <main>
         <aside></aside>
