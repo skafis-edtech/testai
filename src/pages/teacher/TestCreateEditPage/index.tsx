@@ -16,6 +16,29 @@ const TestCreateEditPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [soonDeleted, setSoonDeleted] = useState<number>(-1);
 
+  const updatePublishedTest = () => {
+    const test = testData;
+    const filteredTestInfo = {
+      writerEmail: currentUser?.email,
+      description: test.test.description || "",
+      title: test.test.title || "???",
+      questions: test.test.questions.map((question) => ({
+        isAdditional: question.isAdditional,
+        number: question.number || "???",
+        points: question.points,
+        question: question.question || "",
+      })),
+      specialSymbols: test.test.specialSymbols || "",
+    };
+
+    const accessibleTestsRef = ref(database, `accessibleTests/${testCode}`);
+
+    set(accessibleTestsRef, filteredTestInfo).catch((error) => {
+      alert("Klaida išsaugant testo duomenis viešai");
+      console.error("Error saving test data public: ", error);
+    });
+  };
+
   useEffect(() => {
     if (!currentUser) return;
 
@@ -44,6 +67,10 @@ const TestCreateEditPage: React.FC = () => {
         console.error("Error saving test data: ", error);
       }
     );
+
+    if (testData?.test?.isTestAccessible) {
+      updatePublishedTest();
+    }
   }, [testData]);
 
   if (loading) {
@@ -54,6 +81,12 @@ const TestCreateEditPage: React.FC = () => {
     <div className="input-page-container no-top-padding">
       <h1>Testo redagavimas</h1>
       <p>Informacija išsisaugo automatiškai beredaguojant</p>
+      {testData?.test?.isTestAccessible && (
+        <h2>
+          Testas paviešintas! Redaguodami užduočių numerius rizikuojate, kad
+          šiuo metu testą sprendžiantys mokiniai praras dalį savo atsakymų.
+        </h2>
+      )}
       <h3 className="text-in-the-center">Testo kodas: {testCode}</h3>
       <h3 className="text-in-the-center">Testo pavadinimas:</h3>
       <input
@@ -94,6 +127,7 @@ const TestCreateEditPage: React.FC = () => {
         }
       />
       <h3 className="text-in-the-center">Klausimai:</h3>
+
       <div id="qs">
         {testData?.test?.questions?.map((question, index) => (
           <div
@@ -104,6 +138,12 @@ const TestCreateEditPage: React.FC = () => {
           >
             <div>
               <label>Klausimo numeris:</label>
+              {testData?.test?.isTestAccessible && (
+                <h2>
+                  Jei keisite klausimų numerius, šiuo metu spendžiantiems testą
+                  mokiniams gali dingti kai kurie atsakymų duomenys!
+                </h2>
+              )}
               <br />
               <input
                 style={{ width: "80px" }}

@@ -66,7 +66,7 @@ export interface Execution {
 }
 
 export interface AccessibleTest {
-  name: string;
+  title: string;
   writerEmail: string;
   description: string;
   specialSymbols: string;

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
+import { get, ref } from "firebase/database";
+import { database } from "../../../services/firebaseConfig";
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -16,7 +18,16 @@ const HomePage: React.FC = () => {
       alert("Prašome įvesti ID ir testo kodą");
       return;
     }
-    navigate(`/test/${testCode}/${studentId}`);
+
+    get(ref(database, "accessibleTests/" + testCode)).then((test) => {
+      if (test.val()) {
+        navigate(`/test/${testCode}/${studentId}`);
+      } else {
+        alert(
+          "Testas su kodu " + testCode + " neegzistuoja arba nėra paviešintas"
+        );
+      }
+    });
   };
 
   const gotoResults = (event: any) => {
