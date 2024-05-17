@@ -24,7 +24,3 @@
 .remove-question-btn:hover {
   background-color: #c0392b;
 }
-
-#question-number-input {
-  width: 80px;
-}

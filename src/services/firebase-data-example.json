@@ -29,7 +29,7 @@
     "ABCD": {
       "writerEmail": "naglis1134@gmail.com",
       "description": "grading and stuff... Write ONLY answers",
-      "name": "TItle",
+      "title": "TItle",
       "questions": [
         {
           "isAdditional": false,

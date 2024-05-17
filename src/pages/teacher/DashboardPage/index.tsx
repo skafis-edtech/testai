@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { database } from "../../../services/firebaseConfig";
-import { onValue, ref, set } from "firebase/database";
+import { onValue, ref, remove, set } from "firebase/database";
 import { UserData } from "../../../utils/TYPES";
 import "./index.css";
 import { useAuth } from "../../../context/AuthContext";
@@ -17,7 +17,7 @@ const DashboardPage: React.FC = () => {
   const [newTestCode, setNewTestCode] = useState<string>("");
 
   useEffect(() => {
-    if (testList) {
+    if (testList && sortedKeys.length === 0) {
       const sortedList = Object.keys(testList).sort(
         (a, b) =>
           new Date(testList[b].lastModified).getTime() -
@@ -45,11 +45,92 @@ const DashboardPage: React.FC = () => {
   }, [navigate]);
 
   const makeTestPublic = (testId: string) => {
-    alert("This will make it public" + testId);
+    if (!testList[testId]) {
+      throw new Error(`Test with id ${testId} does not exist in testList.`);
+    }
+
+    // Filter the necessary information
+    const test = testList[testId];
+    const filteredTestInfo = {
+      writerEmail: currentUser?.email,
+      description: test.test.description || "",
+      title: test.test.title || "???",
+      questions: test.test.questions.map((question) => ({
+        isAdditional: question.isAdditional,
+        number: question.number || "???",
+        points: question.points,
+        question: question.question || "",
+      })),
+      specialSymbols: test.test.specialSymbols || "",
+    };
+
+    const accessibleTestsRef = ref(database, `accessibleTests/${testId}`);
+
+    set(accessibleTestsRef, filteredTestInfo)
+      .then(() => {
+        set(
+          ref(
+            database,
+            "users/" +
+              currentUser?.email?.replace(/\./g, "?") +
+              "/tests/" +
+              testId +
+              "/test/isTestAccessible"
+          ),
+          true
+        );
+        set(
+          ref(
+            database,
+            "users/" +
+              currentUser?.email?.replace(/\./g, "?") +
+              "/tests/" +
+              testId +
+              "/lastModified"
+          ),
+          new Date().toISOString()
+        );
+      })
+      .catch((error) => {
+        console.error("Error publishing test: ", error);
+        alert("Klaida: " + error.message);
+      });
   };
 
   const makeTestPrivate = (testId: string) => {
-    alert("This will make it private" + testId);
+    if (!testList[testId]) {
+      throw new Error(`Test with id ${testId} does not exist in testList.`);
+    }
+
+    remove(ref(database, "accessibleTests/" + testId))
+      .then(() => {
+        set(
+          ref(
+            database,
+            "users/" +
+              currentUser?.email?.replace(/\./g, "?") +
+              "/tests/" +
+              testId +
+              "/test/isTestAccessible"
+          ),
+          false
+        );
+        set(
+          ref(
+            database,
+            "users/" +
+              currentUser?.email?.replace(/\./g, "?") +
+              "/tests/" +
+              testId +
+              "/lastModified"
+          ),
+          new Date().toISOString()
+        );
+      })
+      .catch((error) => {
+        console.error("Error privating test: ", error);
+        alert("Klaida: " + error.message);
+      });
   };
 
   const createNewTest = (testId: string) => {
@@ -126,13 +207,13 @@ const DashboardPage: React.FC = () => {
                 className="goto-test-button"
                 onClick={() => navigate(`/test-dashboard/${key}`)}
               >
-                <div className="test-title">{testList[key].test.title}</div>
+                <div className="test-title">{testList[key]?.test?.title}</div>
                 <div className="test-key">Kodas: {key}</div>
                 <div className="test-date">
-                  Keista: {testList[key].lastModified.slice(0, 10)}
+                  Keista: {testList[key]?.lastModified?.slice(0, 10)}
                 </div>
               </button>
-              {testList[key].test.isTestAccessible ? (
+              {testList[key]?.test?.isTestAccessible ? (
                 <div className="status-container">
                   <div className="status-public">VIEŠAS</div>
                   <button
