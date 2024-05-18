@@ -89,7 +89,22 @@ const DashboardPage: React.FC = () => {
               "/lastModified"
           ),
           new Date().toISOString()
-        );
+        )
+          .then(() => {
+            set(ref(database, "execution/" + testId), {
+              readerEmail: currentUser?.email,
+              responses: [{ studentId: "test" }],
+              fullscreenExits: [{ studentId: "test" }],
+              feedback: [{ studentId: "test" }],
+            }).catch((error) => {
+              console.error("Error updating execution: ", error);
+              alert("Klaida: " + error.message);
+            });
+          })
+          .catch((error) => {
+            console.error("Error updating lastModified: ", error);
+            alert("Klaida: " + error.message);
+          });
       })
       .catch((error) => {
         console.error("Error publishing test: ", error);
@@ -115,6 +130,9 @@ const DashboardPage: React.FC = () => {
           ),
           false
         );
+        const executionRef = ref(database, "execution/" + testId);
+        remove(executionRef);
+
         set(
           ref(
             database,
@@ -146,6 +164,7 @@ const DashboardPage: React.FC = () => {
       database,
       "users/" + currentUser?.email?.replace(/\./g, "?") + "/tests/" + testId
     );
+
     set(newTestRef, {
       lastModified: new Date().toISOString(),
       test: {
@@ -153,7 +172,7 @@ const DashboardPage: React.FC = () => {
         isTestAccessible: false,
         questions: [
           {
-            number: "",
+            number: "1.",
             question: "",
             correctAnswer: "",
             points: 1,

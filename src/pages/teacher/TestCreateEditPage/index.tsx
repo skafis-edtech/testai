@@ -83,8 +83,9 @@ const TestCreateEditPage: React.FC = () => {
       <p>Informacija išsisaugo automatiškai beredaguojant</p>
       {testData?.test?.isTestAccessible && (
         <h2>
-          Testas paviešintas! Redaguodami užduočių numerius rizikuojate, kad
-          šiuo metu testą sprendžiantys mokiniai praras dalį savo atsakymų.
+          Testas paviešintas! Redagavimo sistema yra pilnai tam pritaikyta,
+          tačiau pakeitimai vykdomi realiu laiku, todėl rizikuojate pakenkti
+          šiuo metu testą atliekančių mokinių testo atlikimo sklandumui.
         </h2>
       )}
       <h3 className="text-in-the-center">Testo kodas: {testCode}</h3>
@@ -138,12 +139,6 @@ const TestCreateEditPage: React.FC = () => {
           >
             <div>
               <label>Klausimo numeris:</label>
-              {testData?.test?.isTestAccessible && (
-                <h2>
-                  Jei keisite klausimų numerius, šiuo metu spendžiantiems testą
-                  mokiniams gali dingti kai kurie atsakymų duomenys!
-                </h2>
-              )}
               <br />
               <input
                 style={{ width: "80px" }}
