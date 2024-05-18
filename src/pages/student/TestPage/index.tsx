@@ -16,11 +16,13 @@ const TestPage: React.FC = () => {
   useEffect(() => {
     onValue(ref(database, "/accessibleTests/" + testCode), (snapshot) => {
       setTestData(snapshot.val() || {});
-      setAnswers(
-        snapshot
-          .val()
-          ?.questions?.map((q: any) => ({ number: q.number, ans: "" })) || []
-      );
+      if (answers.length === 0) {
+        setAnswers(
+          snapshot
+            .val()
+            ?.questions?.map((q: any) => ({ number: q.number, ans: "" })) || []
+        );
+      }
     });
   }, []);
 
@@ -34,7 +36,7 @@ const TestPage: React.FC = () => {
 
       const testRef = ref(database, "/execution/" + testCode + "/responses");
       push(testRef, userResponse).then(() => {
-        setAnswers([]);
+        localStorage.removeItem("answers");
         alert("Testas sėkmingai pateiktas vertinimui!");
         navigate("/feedback/" + testCode + "/" + studentId);
       });
@@ -83,7 +85,20 @@ const TestPage: React.FC = () => {
               name="answer"
             ></textarea>
           ) : (
-            <input type="text" name="answer" />
+            <input
+              type="text"
+              value={answers.find((a) => a.number === q.number)?.answer}
+              onChange={(e) =>
+                setAnswers(
+                  answers.map((a) =>
+                    a.number === q.number
+                      ? { number: a.number, answer: e.target.value }
+                      : a
+                  )
+                )
+              }
+              name="answer"
+            />
           )}
         </div>
       ))}

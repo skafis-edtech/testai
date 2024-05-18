@@ -32,19 +32,6 @@ const TestDashboardPage: React.FC = () => {
     );
   }, []);
 
-  const convertObjectToArray = (obj: any): any => {
-    return obj ? Object.entries(obj).map((value) => value) : [];
-  };
-
-  const feedbackArray: Execution[string]["feedback"] = convertObjectToArray(
-    executionData?.feedback
-  );
-  const fullscreenExitsArray: Execution[string]["fullscreenExits"] =
-    convertObjectToArray(executionData?.fullscreenExits);
-  const responsesArray: Execution[string]["responses"] = convertObjectToArray(
-    executionData?.responses
-  );
-
   return (
     <div className="input-page-container no-top-padding">
       <h1>Testo valdymas</h1>
@@ -62,71 +49,103 @@ const TestDashboardPage: React.FC = () => {
         Grįžti į mokytojo aplinkos pradinį puslapį
       </button>
       <div>
-        <h3>Feedback</h3>
-        {feedbackArray.map((item, index) => (
-          <div
-            key={index}
-            style={{ borderBottom: "1px solid #ccc", padding: "10px 0" }}
-          >
-            <p>
-              <strong>Feedback:</strong> {item.feedback}
-            </p>
-            <p>
-              <strong>Student ID:</strong> {item.studentId}
-            </p>
-            <p>
-              <strong>Timestamp:</strong>{" "}
-              {new Date(item?.timestamp).toLocaleString()}
-            </p>
-          </div>
-        ))}
+        <h3>"Nelegalūs" išėjimai iš viso ekrano rėžimo</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Mokinio ID</th>
+              <th>Laikas</th>
+            </tr>
+          </thead>
+          <tbody>
+            {executionData?.fullscreenExits &&
+              Object.values(executionData?.fullscreenExits).map(
+                (item, index) => (
+                  <>
+                    {item.studentId !== "testas paviešintas" && (
+                      <tr key={index}>
+                        <td>{item?.studentId}</td>
+                        <td>
+                          {new Date(item?.timestamp).toLocaleString("lt")}
+                        </td>
+                      </tr>
+                    )}
+                  </>
+                )
+              )}
+          </tbody>
+        </table>
       </div>
       <div>
-        <h3>Fullscreen Exits</h3>
-        {fullscreenExitsArray.map((item, index) => (
-          <div
-            key={index}
-            style={{ borderBottom: "1px solid #ccc", padding: "10px 0" }}
-          >
-            <p>
-              <strong>Student ID:</strong> {item?.studentId}
-            </p>
-            <p>
-              <strong>Timestamp:</strong>{" "}
-              {new Date(item?.timestamp).toLocaleString()}
-            </p>
-          </div>
-        ))}
-      </div>
-      <div>
-        <h3>Responses</h3>
-        {responsesArray.map((response, index) => (
-          <div
-            key={index}
-            style={{ borderBottom: "1px solid #ccc", padding: "10px 0" }}
-          >
-            <p>
-              <strong>Student ID:</strong> {response?.studentId}
-            </p>
-            <p>
-              <strong>Timestamp:</strong>{" "}
-              {new Date(response?.timestamp).toLocaleString()}
-            </p>
-            <div>
-              <h4>Answers</h4>
-              {response?.answers?.map((answer, i) => (
-                <div key={i} style={{ paddingLeft: "10px" }}>
-                  <p>
-                    <strong>Number:</strong> {answer.number}
-                  </p>
-                  <p>
-                    <strong>Answer:</strong> {answer.answer}
-                  </p>
-                </div>
+        <h3>Pateikti sprendimai / atsakymai</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Mokinio ID</th>
+              <th>Atsakymai</th>
+              <th>Laikas</th>
+            </tr>
+          </thead>
+          <tbody>
+            {executionData?.responses &&
+              Object.values(executionData?.responses).map((response, index) => (
+                <>
+                  {response.studentId !== "testas paviešintas" && (
+                    <tr key={index}>
+                      <td>{response?.studentId}</td>
+                      <td>
+                        <table>
+                          <thead>
+                            <tr>
+                              <th>Užd.</th>
+                              <th>Atsakymas</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {response?.answers?.map((answer, i) => (
+                              <tr key={i}>
+                                <td>{answer.number}</td>
+                                <td>{answer.answer}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </td>
+                      <td>
+                        {new Date(response?.timestamp).toLocaleString("lt")}
+                      </td>
+                    </tr>
+                  )}
+                </>
               ))}
-            </div>
-          </div>
-        ))}
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h3>Grįžtamasis ryšys</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Mokinio ID</th>
+              <th>Grįžtamasis ryšys</th>
+              <th>Laikas</th>
+            </tr>
+          </thead>
+          <tbody>
+            {executionData?.feedback &&
+              Object.values(executionData?.feedback).map((item, index) => (
+                <>
+                  {item.studentId !== "testas paviešintas" && (
+                    <tr key={index}>
+                      <td>{item.studentId}</td>
+                      <td>{item.feedback}</td>
+                      <td>{new Date(item?.timestamp).toLocaleString("lt")}</td>
+                    </tr>
+                  )}
+                </>
+              ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

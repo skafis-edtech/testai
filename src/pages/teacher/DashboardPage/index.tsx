@@ -17,6 +17,14 @@ const DashboardPage: React.FC = () => {
   const [newTestCode, setNewTestCode] = useState<string>("");
 
   useEffect(() => {
+    const emailRef = ref(
+      database,
+      "users/" + currentUser?.email?.replace(/\./g, "?") + "/writerEmail"
+    );
+    set(emailRef, currentUser?.email);
+  }, []);
+
+  useEffect(() => {
     if (testList && sortedKeys.length === 0) {
       const sortedList = Object.keys(testList).sort(
         (a, b) =>
@@ -97,14 +105,19 @@ const DashboardPage: React.FC = () => {
               })
                 .then(() => {
                   push(ref(database, "execution/" + testId + "/responses"), {
-                    studentId: "test",
+                    studentId: "testas paviešintas",
+                    timestamp: new Date().toISOString(),
                   });
                   push(
                     ref(database, "execution/" + testId + "/fullscreenExits"),
-                    { studentId: "test" }
+                    {
+                      studentId: "testas paviešintas",
+                      timestamp: new Date().toISOString(),
+                    }
                   );
                   push(ref(database, "execution/" + testId + "/feedback"), {
-                    studentId: "test",
+                    studentId: "testas paviešintas",
+                    timestamp: new Date().toISOString(),
                   });
                 })
                 .catch((error) => {
