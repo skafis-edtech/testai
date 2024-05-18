@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { AccessibleTest } from "../../../utils/TYPES";
 import { useEffect, useState } from "react";
-import { onValue, ref, set } from "firebase/database";
+import { onValue, push, ref } from "firebase/database";
 import { database } from "../../../services/firebaseConfig";
 import usePersistentState from "../../../hooks/usePersistentState";
 
@@ -33,7 +33,7 @@ const TestPage: React.FC = () => {
       };
 
       const testRef = ref(database, "/execution/" + testCode + "/responses");
-      set(testRef, userResponse).then(() => {
+      push(testRef, userResponse).then(() => {
         setAnswers([]);
         alert("Testas sėkmingai pateiktas vertinimui!");
         navigate("/feedback/" + testCode + "/" + studentId);
@@ -50,7 +50,7 @@ const TestPage: React.FC = () => {
         grįžus rasite visus savo atsakymus niekur nepabėgusius :)) Paspaudus
         "Pateikti vertinimui" mygtuką, testo duomenys bus išsiųsti į serverį ir
         pasiekiami mokytojui, tuo tarpu kompiuteryje ištrinti. Pateikiant
-        atsakymus antrą kartą jūsų ankstesni atsakymai bus ištrinti.
+        atsakymus antrą kartą jūsų ankstesni atsakymai nebus perrašyti.
       </p>
       <h2>{testData?.description}</h2>
       {testData?.specialSymbols && (
