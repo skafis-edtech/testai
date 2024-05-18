@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { UserData } from "../../../utils/TYPES";
-import { get, ref, set } from "firebase/database";
+import { get, onValue, ref, set } from "firebase/database";
 import { database } from "../../../services/firebaseConfig";
 import { useAuth } from "../../../context/AuthContext";
 import "./index.css";
@@ -15,6 +15,7 @@ const TestCreateEditPage: React.FC = () => {
   const { currentUser } = useAuth();
   const [loading, setLoading] = useState(true);
   const [soonDeleted, setSoonDeleted] = useState<number>(-1);
+  const [isPublished, setIsPublished] = useState<boolean>(false);
 
   const updatePublishedTest = () => {
     const test = testData;
@@ -51,6 +52,10 @@ const TestCreateEditPage: React.FC = () => {
       setTestData(data);
       setLoading(false);
     });
+    onValue(testRef, (snapshot) => {
+      const data = snapshot.val() || {};
+      setIsPublished(data?.test?.isTestAccessible || false);
+    });
   }, [currentUser, testCode]);
 
   useEffect(() => {
@@ -81,7 +86,7 @@ const TestCreateEditPage: React.FC = () => {
     <div className="input-page-container no-top-padding">
       <h1>Testo redagavimas</h1>
       <p>Informacija išsisaugo automatiškai beredaguojant</p>
-      {testData?.test?.isTestAccessible && (
+      {isPublished && (
         <h2>
           Testas paviešintas! Redagavimo sistema yra pilnai tam pritaikyta,
           tačiau pakeitimai vykdomi realiu laiku, todėl rizikuojate pakenkti

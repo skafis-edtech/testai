@@ -120,3 +120,7 @@ button:hover {
 .text-in-the-center {
   text-align: center;
 }
+
+.bigger {
+  font-size: 25px;
+}

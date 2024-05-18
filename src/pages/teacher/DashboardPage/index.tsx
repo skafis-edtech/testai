@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { database } from "../../../services/firebaseConfig";
-import { onValue, ref, remove, set } from "firebase/database";
+import { onValue, push, ref, remove, set } from "firebase/database";
 import { UserData } from "../../../utils/TYPES";
 import "./index.css";
 import { useAuth } from "../../../context/AuthContext";
@@ -91,15 +91,27 @@ const DashboardPage: React.FC = () => {
           new Date().toISOString()
         )
           .then(() => {
-            set(ref(database, "execution/" + testId), {
-              readerEmail: currentUser?.email,
-              responses: [{ studentId: "test" }],
-              fullscreenExits: [{ studentId: "test" }],
-              feedback: [{ studentId: "test" }],
-            }).catch((error) => {
-              console.error("Error updating execution: ", error);
-              alert("Klaida: " + error.message);
-            });
+            if (ref(database, "execution/" + testId)) {
+              set(ref(database, "execution/" + testId), {
+                readerEmail: currentUser?.email,
+              })
+                .then(() => {
+                  push(ref(database, "execution/" + testId + "/responses"), {
+                    studentId: "test",
+                  });
+                  push(
+                    ref(database, "execution/" + testId + "/fullscreenExits"),
+                    { studentId: "test" }
+                  );
+                  push(ref(database, "execution/" + testId + "/feedback"), {
+                    studentId: "test",
+                  });
+                })
+                .catch((error) => {
+                  console.error("Error updating execution: ", error);
+                  alert("Klaida: " + error.message);
+                });
+            }
           })
           .catch((error) => {
             console.error("Error updating lastModified: ", error);
@@ -130,9 +142,6 @@ const DashboardPage: React.FC = () => {
           ),
           false
         );
-        const executionRef = ref(database, "execution/" + testId);
-        remove(executionRef);
-
         set(
           ref(
             database,

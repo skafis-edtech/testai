@@ -10,7 +10,7 @@ const TestPage: React.FC = () => {
   const { testCode, studentId } = useParams();
   const [testData, setTestData] = useState<AccessibleTest>();
   const [answers, setAnswers] = usePersistentState<
-    { number: string; ans: string }[]
+    { number: string; answer: string }[]
   >("answers", []);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const TestPage: React.FC = () => {
       const userResponse = {
         studentId,
         timestamp: new Date().toISOString(),
-        answers: answers.map((a) => ({ number: a.number, ans: a.ans })),
+        answers: answers.map((a) => ({ number: a.number, answer: a.answer })),
       };
 
       const testRef = ref(database, "/execution/" + testCode + "/responses");
@@ -70,12 +70,12 @@ const TestPage: React.FC = () => {
           } (${q.points} t.)`}</label>
           {q.points > 1 ? (
             <textarea
-              value={answers.find((a) => a.number === q.number)?.ans}
+              value={answers.find((a) => a.number === q.number)?.answer}
               onChange={(e) =>
                 setAnswers(
                   answers.map((a) =>
                     a.number === q.number
-                      ? { number: a.number, ans: e.target.value }
+                      ? { number: a.number, answer: e.target.value }
                       : a
                   )
                 )
