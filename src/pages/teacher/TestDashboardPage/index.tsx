@@ -33,7 +33,7 @@ const TestDashboardPage: React.FC = () => {
   }, []);
 
   const convertObjectToArray = (obj: any): any => {
-    return obj ? Object.entries(obj).map(([key, value]) => value) : [];
+    return obj ? Object.entries(obj).map((value) => value) : [];
   };
 
   const feedbackArray: Execution[string]["feedback"] = convertObjectToArray(
