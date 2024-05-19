@@ -205,12 +205,42 @@ const SinglePersonGradingView: React.FC<SinglePersonGradingViewProps> = ({
               questions.find((q) => q.number === number)?.correctAnswer || "",
             points: points !== undefined ? points : 0,
             outOf: questions.find((q) => q.number === number)?.points || 0,
-            isAdditional: false,
+            isAdditional:
+              questions.find((q) => q.number === number)?.isAdditional || false,
           },
         ];
 
     setGradingState({
       ...gradingState,
+      student: response.studentId,
+      points: updatedGradedResponses.reduce(
+        (acc, curr) => acc + (!curr.isAdditional ? curr.points : 0),
+        0
+      ),
+      outOf: updatedGradedResponses.reduce(
+        (acc, curr) => acc + (!curr.isAdditional ? curr.outOf : 0),
+        0
+      ),
+      additionalPoints: updatedGradedResponses.reduce(
+        (acc, curr) => acc + (curr.isAdditional ? curr.points : 0),
+        0
+      ),
+      outOfAdditional: updatedGradedResponses.reduce(
+        (acc, curr) => acc + (curr.isAdditional ? curr.outOf : 0),
+        0
+      ),
+      grade: (
+        (updatedGradedResponses.reduce(
+          (acc, curr) => acc + (!curr.isAdditional ? curr.points : 0),
+          0
+        ) *
+          8) /
+          updatedGradedResponses.reduce(
+            (acc, curr) => acc + (!curr.isAdditional ? curr.outOf : 0),
+            0
+          ) +
+        2
+      ).toFixed(2) as unknown as number,
       gradedResponses: updatedGradedResponses,
     });
   };
@@ -241,14 +271,14 @@ const SinglePersonGradingView: React.FC<SinglePersonGradingViewProps> = ({
       <pre>{JSON.stringify(gradingState, null, 2)}</pre>
       <input
         type="text"
-        value={gradingState.additionalPoints}
+        value={gradingState.teacherComment}
         onChange={(e) =>
           setGradingState({
             ...gradingState,
-            additionalPoints: Number(e.target.value),
+            teacherComment: e.target.value,
           })
         }
-        placeholder="additionalPoints"
+        placeholder="Jūsų komentaras mokiniui..."
       />
     </div>
   );
