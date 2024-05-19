@@ -50,16 +50,7 @@ const GradingPage: React.FC = () => {
               grades: Array.from({ length }, () => ({
                 additionalPoints: 0,
                 grade: 0,
-                gradedResponses: [
-                  {
-                    answer: "",
-                    correctAnswer: "",
-                    isAdditional: false,
-                    number: "",
-                    outOf: 0,
-                    points: 0,
-                  },
-                ],
+                gradedResponses: [],
                 outOf: 0,
                 outOfAdditional: 0,
                 points: 0,
@@ -132,6 +123,9 @@ const GradingPage: React.FC = () => {
             <>
               <div>
                 Person {index} out of {privateGradeData?.grades?.length - 1}
+              </div>
+              <div>
+                Student ID: {Object.values(responsesData)[index].studentId}
               </div>
               <SinglePersonGradingView
                 key={index}
@@ -252,10 +246,11 @@ const SinglePersonGradingView: React.FC<SinglePersonGradingViewProps> = ({
           key={index}
           number={question.number}
           question={question.question}
+          isAdditional={question.isAdditional}
           answer={
             response?.answers?.find(
               (answer) => answer.number === question.number
-            )?.answer || "???"
+            )?.answer || ""
           }
           correctAnswer={question.correctAnswer}
           maxPoints={question.points}
@@ -267,8 +262,15 @@ const SinglePersonGradingView: React.FC<SinglePersonGradingViewProps> = ({
           setPoints={(points) => updateGradedResponses(question.number, points)}
         />
       ))}
-      <h1>gradingState</h1>
-      <pre>{JSON.stringify(gradingState, null, 2)}</pre>
+
+      <div>Points: {gradingState.points}</div>
+      <div>Out of: {gradingState.outOf}</div>
+      <div>Grade: {gradingState.grade}</div>
+      <br />
+      <div>Additional Points: {gradingState.additionalPoints}</div>
+      <div>Out of Additional: {gradingState.outOfAdditional}</div>
+      <br />
+      <h1>Teacher Comment</h1>
       <input
         type="text"
         value={gradingState.teacherComment}
@@ -280,6 +282,8 @@ const SinglePersonGradingView: React.FC<SinglePersonGradingViewProps> = ({
         }
         placeholder="Jūsų komentaras mokiniui..."
       />
+      <h1>gradingState</h1>
+      <pre>{JSON.stringify(gradingState, null, 2)}</pre>
     </div>
   );
 };
@@ -287,6 +291,7 @@ const SinglePersonGradingView: React.FC<SinglePersonGradingViewProps> = ({
 interface SingleAnswerGradingCardProps {
   number: string;
   question: string;
+  isAdditional: boolean;
   answer: string;
   correctAnswer: string;
   maxPoints: number;
@@ -297,6 +302,7 @@ interface SingleAnswerGradingCardProps {
 const SingleAnswerGradingCard: React.FC<SingleAnswerGradingCardProps> = ({
   number,
   question,
+  isAdditional,
   answer,
   correctAnswer,
   maxPoints,
@@ -307,6 +313,7 @@ const SingleAnswerGradingCard: React.FC<SingleAnswerGradingCardProps> = ({
     <div>
       <div>Number: {number}</div>
       <div>Question: {question}</div>
+      <div>isAdditional: {isAdditional ? "Yes" : "No"}</div>
       <div>answer: {answer}</div>
       <div>correctAnswer: {correctAnswer}</div>
       <div>max points: {maxPoints}</div>

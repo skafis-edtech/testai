@@ -31,7 +31,10 @@ const TestPage: React.FC = () => {
       const userResponse = {
         studentId,
         timestamp: new Date().toISOString(),
-        answers: answers.map((a) => ({ number: a.number, answer: a.answer })),
+        answers: answers.map((a) => ({
+          number: a.number,
+          answer: a.answer || "Atsakymas nepateiktas",
+        })),
       };
 
       const testRef = ref(database, "/execution/" + testCode + "/responses");
