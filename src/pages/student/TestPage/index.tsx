@@ -14,6 +14,27 @@ const TestPage: React.FC = () => {
   >("answers", []);
 
   useEffect(() => {
+    const enterFullscreen = () => {
+      const elem: any = document.documentElement;
+
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.mozRequestFullScreen) {
+        // Firefox
+        elem.mozRequestFullScreen();
+      } else if (elem.webkitRequestFullscreen) {
+        // Chrome, Safari and Opera
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) {
+        // IE/Edge
+        elem.msRequestFullscreen();
+      }
+    };
+
+    enterFullscreen();
+  }, []);
+
+  useEffect(() => {
     onValue(ref(database, "/accessibleTests/" + testCode), (snapshot) => {
       setTestData(snapshot.val() || {});
       if (answers.length === 0) {
