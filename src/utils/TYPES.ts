@@ -1,43 +1,49 @@
+export interface Grade {
+  student: string;
+  grade: number;
+  points: number;
+  outOf: number;
+  gradedResponses: {
+    number: string;
+    answer: string;
+    correctAnswer: string;
+    points: number;
+    outOf: number;
+    isAdditional: boolean;
+  }[];
+  additionalPoints: number;
+  outOfAdditional: number;
+  teacherComment: string;
+}
+
+export interface PrivateGrading {
+  pointsToGradeStrategy: string;
+  grades: Grade[];
+  isGradesAccessible: boolean;
+  isShowOnlyGrade: boolean;
+}
+
+export interface PrivateTestData {
+  title: string;
+  description: string;
+  specialSymbols: string;
+  questions: {
+    number: string;
+    question: string;
+    correctAnswer: string;
+    points: number;
+    isAdditional: boolean;
+  }[];
+  isTestAccessible: boolean;
+}
+
 export interface UserData {
   writerEmail: string;
   tests: {
     [testId: string]: {
       lastModified: string;
-      test: {
-        title: string;
-        description: string;
-        specialSymbols: string;
-        questions: {
-          number: string;
-          question: string;
-          correctAnswer: string;
-          points: number;
-          isAdditional: boolean;
-        }[];
-        isTestAccessible: boolean;
-      };
-      grading: {
-        pointsToGradeStrategy: string;
-        grades: {
-          student: string;
-          grade: number;
-          points: number;
-          outOf: number;
-          gradedResponses: {
-            number: string;
-            answer: string;
-            correctAnswer: string;
-            points: number;
-            outOf: number;
-            isAdditional: boolean;
-          }[];
-          additionalPoints: number;
-          outOfAdditional: number;
-          teacherComment: string;
-        }[];
-        isGradesAccessible: boolean;
-        isShowOnlyGrade: boolean;
-      };
+      test: PrivateTestData;
+      grading: PrivateGrading;
     };
   };
 }
@@ -80,23 +86,7 @@ export interface AccessibleTest {
 
 export interface AccessibleGrade {
   writerEmail: string;
-  grades: {
-    student: string;
-    grade: number;
-    points: number;
-    outOf: number;
-    gradedResponses: {
-      number: string;
-      answer: string;
-      correctAnswer: string;
-      points: number;
-      outOf: number;
-      isAdditional: boolean;
-    }[];
-    additionalPoints: number;
-    outOfAdditional: number;
-    teacherComment: string;
-  }[];
+  grades: Grade[];
 }
 
 // interface FirebaseData {

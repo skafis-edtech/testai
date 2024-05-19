@@ -30,7 +30,7 @@ export const privateRoutes: IRoute[] = [
     element: <LogoutPage />,
   },
   {
-    path: "/grading",
+    path: "/grading/:testCode",
     title: "Grading",
     element: <GradingPage />,
   },

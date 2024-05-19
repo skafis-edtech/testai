@@ -1,3 +1,8 @@
+/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   font-family: "Roboto", sans-serif;
   margin: 0;
@@ -86,12 +91,12 @@ button:hover {
   width: 100%;
   padding: 12px;
   margin-top: 10px;
-  background-color: #3498db; /* Consistent with other forms but less bold */
+  background-color: #3498db;
   border: none;
   color: white;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 16px; /* Standard button font size */
+  font-size: 16px;
   transition: background-color 0.3s ease;
 }
 
@@ -100,29 +105,15 @@ button:hover {
 }
 
 .input-page-container {
-  width: 90%;
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 5vh 0;
+  @apply w-11/12 max-w-xl mx-auto pb-[5vh];
 }
 
-.no-top-padding {
-  padding-top: 0;
+.centered-input-page-container {
+  @apply w-11/12 max-w-md mx-auto pt-[10vh];
 }
 
-.narrow-input-page-container {
-  width: 90%;
-  max-width: 400px;
-  margin: 0 auto;
-  padding-top: 10vh;
-}
-
-.text-in-the-center {
-  text-align: center;
-}
-
-.bigger {
-  font-size: 25px;
+.view-page-container {
+  @apply p-4;
 }
 
 table {
@@ -140,4 +131,8 @@ td {
 
 th {
   background-color: #f4f4f4;
+}
+
+.num-btn {
+  @apply w-[50px] h-[50px] m-[5px];
 }

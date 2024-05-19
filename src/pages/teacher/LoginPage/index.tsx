@@ -33,7 +33,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="narrow-input-page-container">
+    <div className="centered-input-page-container">
       <h1>Mokytojo prisijungimas</h1>
       <form onSubmit={loginUser}>
         <input

@@ -44,7 +44,7 @@ const TestPage: React.FC = () => {
   };
 
   return (
-    <div className="input-page-container no-top-padding">
+    <div className="input-page-container">
       <h1>{testData?.title}</h1>
       <p>
         Testo duomenys automatiškai išsisaugo kompiuterio atmintyje. Todėl

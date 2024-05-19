@@ -218,7 +218,7 @@ const DashboardPage: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="view-page-container">
       <h1>Mokytojo aplinka</h1>
       <div className="email-div">{currentUser?.email || "Kraunasi..."}</div>
       <button className="logout-btn" onClick={() => navigate("/logout")}>

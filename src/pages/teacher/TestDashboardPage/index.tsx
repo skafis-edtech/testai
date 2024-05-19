@@ -10,6 +10,7 @@ const TestDashboardPage: React.FC = () => {
   const { testCode } = useParams();
   const [executionData, setExecutionData] = useState<Execution[string]>();
   const [testTitle, setTestTitle] = useState<string>("");
+  const [testIsPublic, setTestIsPublic] = useState<boolean>(false);
   const { currentUser } = useAuth();
 
   useEffect(() => {
@@ -30,20 +31,44 @@ const TestDashboardPage: React.FC = () => {
         setTestTitle(snapshot.val() || "");
       }
     );
+    onValue(
+      ref(
+        database,
+        "/users/" +
+          currentUser?.email?.replace(/\./g, "?") +
+          "/tests/" +
+          testCode +
+          "/test/isTestAccessible"
+      ),
+      (snapshot) => {
+        setTestIsPublic(snapshot.val() || false);
+      }
+    );
   }, []);
 
   return (
-    <div className="input-page-container no-top-padding">
+    <div className="view-page-container">
       <h1>Testo valdymas</h1>
-      <h3 className="text-in-the-center bigger">{testTitle}</h3>
-      <h3 className="text-in-the-center">Testo kodas: {testCode}</h3>
-
+      <h3 className="text-center text-[25px]">{testTitle}</h3>
+      <h3 className="text-center">Testo kodas: {testCode}</h3>
+      {testIsPublic ? (
+        <h2 className="text-center">Testas paviešintas</h2>
+      ) : (
+        <h2 className="text-center" style={{ color: "green" }}>
+          Testas privatus
+        </h2>
+      )}
       <button onClick={() => navigate(`/test/${testCode}/mokytojas`)}>
         Spręsti testą (kaip mokiniui su ID "mokytojas")
       </button>
-
       <button onClick={() => navigate(`/test-create-edit/${testCode}`)}>
         Redaguoti testą
+      </button>
+      <button onClick={() => navigate(`/grading/${testCode}`)}>
+        Vertinti pateiktus atsakymus
+      </button>
+      <button onClick={() => alert("this will make grades public")}>
+        Viešinti įvertinimus
       </button>
       <button onClick={() => navigate("/dashboard")}>
         Grįžti į mokytojo aplinkos pradinį puslapį

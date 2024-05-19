@@ -83,7 +83,7 @@ const TestCreateEditPage: React.FC = () => {
   }
 
   return (
-    <div className="input-page-container no-top-padding">
+    <div className="input-page-container">
       <h1>Testo redagavimas</h1>
       <p>Informacija išsisaugo automatiškai beredaguojant</p>
       {isPublished && (
@@ -93,8 +93,8 @@ const TestCreateEditPage: React.FC = () => {
           šiuo metu testą atliekančių mokinių testo atlikimo sklandumui.
         </h2>
       )}
-      <h3 className="text-in-the-center">Testo kodas: {testCode}</h3>
-      <h3 className="text-in-the-center">Testo pavadinimas:</h3>
+      <h3 className="text-center ">Testo kodas: {testCode}</h3>
+      <h3 className="text-center ">Testo pavadinimas:</h3>
       <input
         type="text"
         name="title"
@@ -106,7 +106,7 @@ const TestCreateEditPage: React.FC = () => {
           }))
         }
       />
-      <h3 className="text-in-the-center">Komentaras (žinutė mokiniams):</h3>
+      <h3 className="text-center ">Komentaras (žinutė mokiniams):</h3>
       <textarea
         name="description"
         value={testData?.test?.description || ""}
@@ -117,7 +117,7 @@ const TestCreateEditPage: React.FC = () => {
           }))
         }
       ></textarea>
-      <h3 className="text-in-the-center">
+      <h3 className="text-center ">
         Specialūs simboliai mokiniams kopijavimui:
       </h3>
       <input
@@ -132,7 +132,7 @@ const TestCreateEditPage: React.FC = () => {
           }))
         }
       />
-      <h3 className="text-in-the-center">Klausimai:</h3>
+      <h3 className="text-center ">Klausimai:</h3>
 
       <div id="qs">
         {testData?.test?.questions?.map((question, index) => (

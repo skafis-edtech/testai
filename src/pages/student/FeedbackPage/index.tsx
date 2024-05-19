@@ -8,7 +8,7 @@ const FeedbackPage: React.FC = () => {
   const navigate = useNavigate();
   const [feedback, setFeedback] = useState<string>("");
   return (
-    <div className="input-page-container no-top-padding">
+    <div className="input-page-container">
       <form
         onSubmit={(event) => {
           event.preventDefault();

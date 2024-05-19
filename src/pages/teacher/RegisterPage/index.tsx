@@ -36,7 +36,7 @@ const RegisterPage: React.FC = () => {
   };
 
   return (
-    <div className="narrow-input-page-container">
+    <div className="centered-input-page-container">
       <form onSubmit={registerUser}>
         <h1>Mokytojo registracija</h1>
         <input
