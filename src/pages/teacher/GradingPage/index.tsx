@@ -8,6 +8,7 @@ import { get, onValue, ref, set } from "firebase/database";
 import { database } from "../../../services/firebaseConfig";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
+import ButtonNumberInput from "../../../components/ButtonNumberInput";
 
 const GradingPage: React.FC = () => {
   const { testCode } = useParams();
@@ -105,13 +106,20 @@ const GradingPage: React.FC = () => {
       <h1 className="text-3xl font-bold underline">Testo vertinimas</h1>
       <h3 className="text-center text-[25px]">Stereometrija</h3>
       <h3 className="text-center">Testo kodas: ABCD</h3>
+      <p>
+        Vertinimas išsisaugo automatiškai. Rezultatai yra privatūs, kol
+        nepaviešinsite jų "Testo valdymas" puslapyje.
+      </p>
+      <button onClick={() => navigate(`/test-dashboard/${testCode}`)}>
+        Grįžti į puslapį "Testo valdymas"
+      </button>
 
-      <h1 className="text-2xl font-bold">responsesData</h1>
+      {/* <h1 className="text-2xl font-bold">responsesData</h1>
       <pre>{JSON.stringify(responsesData, null, 2)}</pre>
       <h1 className="text-2xl font-bold">questionsDataWithAnswers</h1>
       <pre>{JSON.stringify(questionsDataWithAnswers, null, 2)}</pre>
       <h1 className="text-2xl font-bold">privateGradeData</h1>
-      <pre>{JSON.stringify(privateGradeData, null, 2)}</pre>
+      <pre>{JSON.stringify(privateGradeData, null, 2)}</pre> */}
       {/* <button style={{ width: "200px" }} onClick={() => navigate(-1)}>
         &#10094; Previous
       </button>
@@ -119,30 +127,41 @@ const GradingPage: React.FC = () => {
         Next &#10095;
       </button> */}
       {privateGradeData?.grades?.map((grade, index) => (
-        <SinglePersonGradingView
-          key={index}
-          gradingState={grade}
-          setGradingState={(gradingState) =>
-            set(
-              ref(
-                database,
-                "/users/" +
-                  currentUser?.email?.replace(/\./g, "?") +
-                  "/tests/" +
-                  testCode +
-                  "/grading/"
-              ),
-              {
-                ...privateGradeData,
-                grades: [
-                  ...privateGradeData.grades.slice(0, index),
-                  gradingState,
-                  ...privateGradeData.grades.slice(index + 1),
-                ],
-              }
-            )
-          }
-        />
+        <div key={index}>
+          {index !== 0 && (
+            <>
+              <div>
+                Person {index} out of {privateGradeData?.grades?.length - 1}
+              </div>
+              <SinglePersonGradingView
+                key={index}
+                gradingState={grade}
+                setGradingState={(gradingState) =>
+                  set(
+                    ref(
+                      database,
+                      "/users/" +
+                        currentUser?.email?.replace(/\./g, "?") +
+                        "/tests/" +
+                        testCode +
+                        "/grading/"
+                    ),
+                    {
+                      ...privateGradeData,
+                      grades: [
+                        ...privateGradeData.grades.slice(0, index),
+                        gradingState,
+                        ...privateGradeData.grades.slice(index + 1),
+                      ],
+                    }
+                  )
+                }
+                response={Object.values(responsesData)[index]}
+                questions={questionsDataWithAnswers}
+              />
+            </>
+          )}
+        </div>
       ))}
     </div>
   );
@@ -151,15 +170,74 @@ const GradingPage: React.FC = () => {
 interface SinglePersonGradingViewProps {
   gradingState: PrivateGrading["grades"][number];
   setGradingState: (gradingState: PrivateGrading["grades"][number]) => void;
+  response: Execution[string]["responses"][number];
+  questions: PrivateTestData["questions"];
 }
 
 const SinglePersonGradingView: React.FC<SinglePersonGradingViewProps> = ({
   gradingState,
   setGradingState,
+  response,
+  questions,
 }) => {
+  const updateGradedResponses = (
+    number: string,
+    points: number | undefined
+  ) => {
+    const existingResponse = gradingState.gradedResponses.find(
+      (gradedResponse) => gradedResponse.number === number
+    );
+
+    const updatedGradedResponses = existingResponse
+      ? gradingState.gradedResponses.map((gradedResponse) =>
+          gradedResponse.number === number
+            ? { ...gradedResponse, points: points !== undefined ? points : 0 }
+            : gradedResponse
+        )
+      : [
+          ...gradingState.gradedResponses,
+          {
+            number,
+            answer:
+              response.answers.find((answer) => answer.number === number)
+                ?.answer || "",
+            correctAnswer:
+              questions.find((q) => q.number === number)?.correctAnswer || "",
+            points: points !== undefined ? points : 0,
+            outOf: questions.find((q) => q.number === number)?.points || 0,
+            isAdditional: false,
+          },
+        ];
+
+    setGradingState({
+      ...gradingState,
+      gradedResponses: updatedGradedResponses,
+    });
+  };
+
   return (
     <div>
-      <h1>SinglePersonGradingView</h1>
+      {questions?.map((question, index) => (
+        <SingleAnswerGradingCard
+          key={index}
+          number={question.number}
+          question={question.question}
+          answer={
+            response?.answers?.find(
+              (answer) => answer.number === question.number
+            )?.answer || "???"
+          }
+          correctAnswer={question.correctAnswer}
+          maxPoints={question.points}
+          points={
+            gradingState?.gradedResponses?.find(
+              (gradedResponse) => gradedResponse.number === question.number
+            )?.points
+          }
+          setPoints={(points) => updateGradedResponses(question.number, points)}
+        />
+      ))}
+      <h1>gradingState</h1>
       <pre>{JSON.stringify(gradingState, null, 2)}</pre>
       <input
         type="text"
@@ -172,6 +250,44 @@ const SinglePersonGradingView: React.FC<SinglePersonGradingViewProps> = ({
         }
         placeholder="additionalPoints"
       />
+    </div>
+  );
+};
+
+interface SingleAnswerGradingCardProps {
+  number: string;
+  question: string;
+  answer: string;
+  correctAnswer: string;
+  maxPoints: number;
+  setPoints: (points: number | undefined) => void;
+  points: number | undefined;
+}
+
+const SingleAnswerGradingCard: React.FC<SingleAnswerGradingCardProps> = ({
+  number,
+  question,
+  answer,
+  correctAnswer,
+  maxPoints,
+  setPoints,
+  points,
+}) => {
+  return (
+    <div>
+      <div>Number: {number}</div>
+      <div>Question: {question}</div>
+      <div>answer: {answer}</div>
+      <div>correctAnswer: {correctAnswer}</div>
+      <div>max points: {maxPoints}</div>
+      <ButtonNumberInput
+        min={0}
+        max={maxPoints}
+        value={points}
+        setValue={setPoints}
+      />
+      <div>Points: {points}</div>
+      <br />
     </div>
   );
 };

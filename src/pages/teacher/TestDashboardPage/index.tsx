@@ -86,16 +86,16 @@ const TestDashboardPage: React.FC = () => {
             {executionData?.fullscreenExits &&
               Object.values(executionData?.fullscreenExits).map(
                 (item, index) => (
-                  <>
+                  <tr key={index}>
                     {item.studentId !== "testas paviešintas" && (
-                      <tr key={index}>
+                      <>
                         <td>{item?.studentId}</td>
                         <td>
                           {new Date(item?.timestamp).toLocaleString("lt")}
                         </td>
-                      </tr>
+                      </>
                     )}
-                  </>
+                  </tr>
                 )
               )}
           </tbody>
@@ -114,9 +114,9 @@ const TestDashboardPage: React.FC = () => {
           <tbody>
             {executionData?.responses &&
               Object.values(executionData?.responses).map((response, index) => (
-                <>
+                <tr key={index}>
                   {response.studentId !== "testas paviešintas" && (
-                    <tr key={index}>
+                    <>
                       <td>{response?.studentId}</td>
                       <td>
                         <table>
@@ -139,9 +139,9 @@ const TestDashboardPage: React.FC = () => {
                       <td>
                         {new Date(response?.timestamp).toLocaleString("lt")}
                       </td>
-                    </tr>
+                    </>
                   )}
-                </>
+                </tr>
               ))}
           </tbody>
         </table>
@@ -159,15 +159,15 @@ const TestDashboardPage: React.FC = () => {
           <tbody>
             {executionData?.feedback &&
               Object.values(executionData?.feedback).map((item, index) => (
-                <>
+                <tr key={index}>
                   {item.studentId !== "testas paviešintas" && (
-                    <tr key={index}>
+                    <>
                       <td>{item.studentId}</td>
                       <td>{item.feedback}</td>
                       <td>{new Date(item?.timestamp).toLocaleString("lt")}</td>
-                    </tr>
+                    </>
                   )}
-                </>
+                </tr>
               ))}
           </tbody>
         </table>
