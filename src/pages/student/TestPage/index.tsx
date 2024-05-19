@@ -68,29 +68,26 @@ const TestPage: React.FC = () => {
   };
 
   return (
-    <div className="input-page-container">
+    <div className="input-page-container mt-4">
       <h1>{testData?.title}</h1>
       <p>
-        Testo duomenys automatiškai išsisaugo kompiuterio atmintyje. Todėl
-        nesijaudinkite, jei dings interneto ryšys ar atsiras kiti nesklandumai -
-        grįžus rasite visus savo atsakymus niekur nepabėgusius :)) Paspaudus
-        "Pateikti vertinimui" mygtuką, testo duomenys bus išsiųsti į serverį ir
-        pasiekiami mokytojui, tuo tarpu kompiuteryje ištrinti. Pateikiant
-        atsakymus antrą kartą jūsų ankstesni atsakymai nebus perrašyti.
+        Suvesti atsakymai automatiškai išsisaugo kompiuterio atmintyje.
+        Pateikiant atsakymus antrą kartą jūsų ankstesni atsakymai nebus
+        perrašyti. Atsakymai nevertinami automatiškai.
       </p>
       <h2>{testData?.description}</h2>
-      {testData?.specialSymbols && (
-        <>
-          <p>Simboliai kopijavimui:</p>
-          <div style={{ display: "flex", height: "90px" }}>
-            {testData?.specialSymbols?.split("").map((symbol, index) => (
-              <CopyButton key={index} text={symbol} />
-            ))}
-          </div>
-        </>
-      )}
       {testData?.questions?.map((q, index) => (
-        <div key={index} style={{ marginBottom: "40px" }}>
+        <div key={index}>
+          {testData?.specialSymbols && (
+            <>
+              <p>Simboliai kopijavimui:</p>
+              <div style={{ display: "flex", height: "90px" }}>
+                {testData?.specialSymbols?.split("").map((symbol, index) => (
+                  <CopyButton key={index} text={symbol} />
+                ))}
+              </div>
+            </>
+          )}
           <label>{`${q.number}${q.isAdditional ? "* (papildoma)" : " "} ${
             q.question
           } (${q.points} t.)`}</label>

@@ -58,20 +58,24 @@ const TestDashboardPage: React.FC = () => {
           Testas privatus
         </h2>
       )}
-      <button onClick={() => navigate(`/test/${testCode}/mokytojas`)}>
-        Spręsti testą (kaip mokiniui su ID "mokytojas")
-      </button>
-      <button onClick={() => navigate(`/test-create-edit/${testCode}`)}>
+
+      <button
+        className="w-2/12 bg-teal-600 hover:bg-teal-800"
+        onClick={() => navigate(`/test-create-edit/${testCode}`)}
+      >
         Redaguoti testą
       </button>
-      <button onClick={() => navigate(`/grading/${testCode}`)}>
-        Vertinti pateiktus atsakymus
+      <button
+        className="w-4/12 m-5 "
+        onClick={() => navigate(`/grading/${testCode}`)}
+      >
+        Vertinti mokinių pateiktus atsakymus
       </button>
-      <button onClick={() => alert("this will make grades public")}>
-        Viešinti įvertinimus
-      </button>
-      <button onClick={() => navigate("/dashboard")}>
-        Grįžti į mokytojo aplinkos pradinį puslapį
+      <button
+        className="w-5/12 bg-amber-500 hover:bg-amber-700"
+        onClick={() => navigate(`/test/${testCode}/mokytojas`)}
+      >
+        Spręsti testą (kaip mokiniui su ID "mokytojas")
       </button>
       <div>
         <h3>"Nelegalūs" išėjimai iš viso ekrano rėžimo</h3>
@@ -172,6 +176,9 @@ const TestDashboardPage: React.FC = () => {
           </tbody>
         </table>
       </div>
+      <button className="max-w-96" onClick={() => navigate("/dashboard")}>
+        Grįžti į mokytojo aplinkos pradinį puslapį
+      </button>
     </div>
   );
 };

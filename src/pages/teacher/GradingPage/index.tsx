@@ -93,39 +93,25 @@ const GradingPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="input-page-container">
-      <h1 className="text-3xl font-bold underline">Testo vertinimas</h1>
+    <div className="view-page-container">
+      <h1 className="mt-2">Testo vertinimas</h1>
       <h3 className="text-center text-[25px]">Stereometrija</h3>
-      <h3 className="text-center">Testo kodas: ABCD</h3>
+      <h3 className="text-center mb-4">Testo kodas: ABCD</h3>
       <p>
-        Vertinimas išsisaugo automatiškai. Rezultatai yra privatūs, kol
-        nepaviešinsite jų "Testo valdymas" puslapyje.
+        Vertinimas išsisaugo automatiškai. Rezultatai iškart paviešinami kartu
+        su uždavinių sąlygomis bei teisingais atsakymais.
       </p>
-      <button onClick={() => navigate(`/test-dashboard/${testCode}`)}>
-        Grįžti į puslapį "Testo valdymas"
-      </button>
-
-      {/* <h1 className="text-2xl font-bold">responsesData</h1>
-      <pre>{JSON.stringify(responsesData, null, 2)}</pre>
-      <h1 className="text-2xl font-bold">questionsDataWithAnswers</h1>
-      <pre>{JSON.stringify(questionsDataWithAnswers, null, 2)}</pre>
-      <h1 className="text-2xl font-bold">privateGradeData</h1>
-      <pre>{JSON.stringify(privateGradeData, null, 2)}</pre> */}
-      {/* <button style={{ width: "200px" }} onClick={() => navigate(-1)}>
-        &#10094; Previous
-      </button>
-      <button style={{ width: "200px" }} onClick={() => navigate(1)}>
-        Next &#10095;
-      </button> */}
       {privateGradeData?.grades?.map((grade, index) => (
         <div key={index}>
           {index !== 0 && (
-            <>
+            <div className="bg-gray-100 p-5 rounded-lg mb-12 mt-8 w-full shadow-md text-center">
               <div>
-                Person {index} out of {privateGradeData?.grades?.length - 1}
-              </div>
-              <div>
-                Student ID: {Object.values(responsesData)[index].studentId}
+                <h3>
+                  Mokinys {index} iš {privateGradeData?.grades?.length - 1}
+                </h3>
+                <h3>
+                  Mokinio ID: {Object.values(responsesData)[index]?.studentId}
+                </h3>
               </div>
               <SinglePersonGradingView
                 key={index}
@@ -153,10 +139,13 @@ const GradingPage: React.FC = () => {
                 response={Object.values(responsesData)[index]}
                 questions={questionsDataWithAnswers}
               />
-            </>
+            </div>
           )}
         </div>
       ))}
+      <button onClick={() => navigate(`/test-dashboard/${testCode}`)}>
+        Grįžti į puslapį "Testo valdymas" (vertinimas išsaugotas automatiškai)
+      </button>
     </div>
   );
 };
@@ -262,15 +251,16 @@ const SinglePersonGradingView: React.FC<SinglePersonGradingViewProps> = ({
           setPoints={(points) => updateGradedResponses(question.number, points)}
         />
       ))}
-
-      <div>Points: {gradingState.points}</div>
-      <div>Out of: {gradingState.outOf}</div>
-      <div>Grade: {gradingState.grade}</div>
-      <br />
-      <div>Additional Points: {gradingState.additionalPoints}</div>
-      <div>Out of Additional: {gradingState.outOfAdditional}</div>
-      <br />
-      <h1>Teacher Comment</h1>
+      <h3 className="text-2xl text-center">
+        Surinkti taškai: {gradingState.points} iš {gradingState.outOf}
+      </h3>
+      <h3 className="text-2xl text-center">Pažymys: {gradingState.grade}</h3>
+      <p>Tiesinė vertinimo sistema: 0 taškų - 2, visi taškai - 10.</p>
+      <h3 className="text-2xl text-center my-4">
+        Papildomų užduočių taškai: {gradingState.additionalPoints} iš{" "}
+        {gradingState.outOfAdditional}
+      </h3>
+      <h3>Komentaras mokiniui</h3>
       <input
         type="text"
         value={gradingState.teacherComment}
@@ -280,10 +270,8 @@ const SinglePersonGradingView: React.FC<SinglePersonGradingViewProps> = ({
             teacherComment: e.target.value,
           })
         }
-        placeholder="Jūsų komentaras mokiniui..."
+        placeholder={`Jūsų komentaras mokiniui su ID "${response.studentId}"...`}
       />
-      <h1>gradingState</h1>
-      <pre>{JSON.stringify(gradingState, null, 2)}</pre>
     </div>
   );
 };
@@ -310,21 +298,20 @@ const SingleAnswerGradingCard: React.FC<SingleAnswerGradingCardProps> = ({
   points,
 }) => {
   return (
-    <div>
-      <div>Number: {number}</div>
-      <div>Question: {question}</div>
-      <div>isAdditional: {isAdditional ? "Yes" : "No"}</div>
-      <div>answer: {answer}</div>
-      <div>correctAnswer: {correctAnswer}</div>
-      <div>max points: {maxPoints}</div>
+    <div className="border-black border-2">
+      <div>
+        {number} {isAdditional ? "* (papildoma)" : ""} {question}
+      </div>
+      <div>Mokinio atsakymas: </div>
+      <div>{answer}</div>
+      <div>Teisingas atsakymas:</div>
+      <div>{correctAnswer}</div>
       <ButtonNumberInput
         min={0}
         max={maxPoints}
         value={points}
         setValue={setPoints}
       />
-      <div>Points: {points}</div>
-      <br />
     </div>
   );
 };
