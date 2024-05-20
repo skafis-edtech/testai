@@ -34,8 +34,13 @@ const MakePublicButtons: React.FC<{ testCode: string }> = ({ testCode }) => {
               writerEmail: currentUser?.email,
               grades: data.map((grade: any) => {
                 return {
-                  studentId: grade.student || "",
+                  student: grade.student || "",
                   grade: grade.grade,
+                  points: grade.points,
+                  outOf: grade.outOf,
+                  additionalPoints: grade.additionalPoints,
+                  outOfAdditional: grade.outOfAdditional,
+                  teacherComment: grade.teacherComment,
                 };
               }),
             });
@@ -82,8 +87,13 @@ const MakePublicButtons: React.FC<{ testCode: string }> = ({ testCode }) => {
       writerEmail: currentUser?.email,
       grades: grades.map((grade: any) => {
         return {
-          studentId: grade.student || "",
+          student: grade.student || "",
           grade: grade.grade,
+          points: grade.points,
+          outOf: grade.outOf,
+          additionalPoints: grade.additionalPoints,
+          outOfAdditional: grade.outOfAdditional,
+          teacherComment: grade.teacherComment,
         };
       }),
     };
@@ -187,7 +197,7 @@ const MakePublicButtons: React.FC<{ testCode: string }> = ({ testCode }) => {
             <h2>Mokiniams rodoma tik pažymiai</h2>
           ) : (
             <h2>
-              Mokiniams rodoma vertinimas su uždavinių sąlygomis ir teisingais
+              Mokiniams rodoma atskirų užduočių vertinimas teisingais
               atsakymais.
             </h2>
           )}
