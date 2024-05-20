@@ -32,6 +32,31 @@ const TestPage: React.FC = () => {
     };
 
     enterFullscreen();
+    document
+      .getElementsByTagName("header")
+      .item(0)
+      ?.style.setProperty("display", "none");
+    document
+      .getElementsByTagName("footer")
+      .item(0)
+      ?.style.setProperty("display", "none");
+  }, []);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement) {
+        push(ref(database, "/execution/" + testCode + "/fullscreenExits"), {
+          studentId,
+          timestamp: new Date().toISOString(),
+        });
+      }
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
   }, []);
 
   useEffect(() => {
@@ -48,23 +73,21 @@ const TestPage: React.FC = () => {
   }, []);
 
   const turnIn = () => {
-    if (confirm("Ar tikrai norite pateikti testą vertinimui?")) {
-      const userResponse = {
-        studentId,
-        timestamp: new Date().toISOString(),
-        answers: answers.map((a) => ({
-          number: a.number,
-          answer: a.answer || "Atsakymas nepateiktas",
-        })),
-      };
+    const userResponse = {
+      studentId,
+      timestamp: new Date().toISOString(),
+      answers: answers.map((a) => ({
+        number: a.number,
+        answer: a.answer || "Atsakymas nepateiktas",
+      })),
+    };
 
-      const testRef = ref(database, "/execution/" + testCode + "/responses");
-      push(testRef, userResponse).then(() => {
-        localStorage.removeItem("answers");
-        alert("Testas sėkmingai pateiktas vertinimui!");
-        navigate("/feedback/" + testCode + "/" + studentId);
-      });
-    }
+    const testRef = ref(database, "/execution/" + testCode + "/responses");
+    push(testRef, userResponse).then(() => {
+      localStorage.removeItem("answers");
+      alert("Testas sėkmingai pateiktas vertinimui!");
+      navigate("/feedback/" + testCode + "/" + studentId);
+    });
   };
 
   return (

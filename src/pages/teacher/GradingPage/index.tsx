@@ -9,6 +9,7 @@ import { database } from "../../../services/firebaseConfig";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import ButtonNumberInput from "../../../components/ButtonNumberInput";
+import MakePublicButtons from "./MakePublicButtons";
 
 const GradingPage: React.FC = () => {
   const { testCode } = useParams();
@@ -23,9 +24,25 @@ const GradingPage: React.FC = () => {
     PrivateTestData["questions"]
   >([]);
 
+  const [title, setTitle] = useState<string>("");
+
   const [privateGradeData, setPrivateGradeData] = useState<PrivateGrading>();
 
   useEffect(() => {
+    onValue(
+      ref(
+        database,
+        "/users/" +
+          currentUser?.email?.replace(/\./g, "?") +
+          "/tests/" +
+          testCode +
+          "/test/title"
+      ),
+      (snapshot) => {
+        setTitle(snapshot.val() || "");
+      }
+    );
+
     // Fetch responses data
     onValue(
       ref(database, "/execution/" + testCode + "/responses"),
@@ -95,21 +112,19 @@ const GradingPage: React.FC = () => {
   return (
     <div className="view-page-container">
       <h1 className="mt-2">Testo vertinimas</h1>
-      <h3 className="text-center text-[25px]">Stereometrija</h3>
-      <h3 className="text-center mb-4">Testo kodas: ABCD</h3>
-      <p>
-        Vertinimas išsisaugo automatiškai. Rezultatai iškart paviešinami kartu
-        su uždavinių sąlygomis bei teisingais atsakymais.
-      </p>
+      <h3 className="text-center mb-4 text-2xl">{title}</h3>
+      <h3 className="text-center mb-4 text-2xl">Testo kodas: {testCode}</h3>
+      <p>Vertinimas išsisaugo automatiškai.</p>
+      {testCode && <MakePublicButtons testCode={testCode} />}
       {privateGradeData?.grades?.map((grade, index) => (
         <div key={index}>
           {index !== 0 && (
-            <div className="bg-gray-100 p-5 rounded-lg mb-12 mt-8 w-full shadow-md text-center">
+            <div className="bg-gray-100 p-5 rounded-lg mb-20 mt-8 w-full shadow-md text-center">
               <div>
-                <h3>
+                <h3 className="text-2xl">
                   Mokinys {index} iš {privateGradeData?.grades?.length - 1}
                 </h3>
-                <h3>
+                <h3 className="text-3xl my-8">
                   Mokinio ID: {Object.values(responsesData)[index]?.studentId}
                 </h3>
               </div>
@@ -167,7 +182,7 @@ const SinglePersonGradingView: React.FC<SinglePersonGradingViewProps> = ({
     number: string,
     points: number | undefined
   ) => {
-    const existingResponse = gradingState.gradedResponses.find(
+    const existingResponse = gradingState.gradedResponses?.find(
       (gradedResponse) => gradedResponse.number === number
     );
 
@@ -178,11 +193,11 @@ const SinglePersonGradingView: React.FC<SinglePersonGradingViewProps> = ({
             : gradedResponse
         )
       : [
-          ...gradingState.gradedResponses,
+          ...(gradingState.gradedResponses || []),
           {
             number,
             answer:
-              response.answers.find((answer) => answer.number === number)
+              response.answers?.find((answer) => answer.number === number)
                 ?.answer || "",
             correctAnswer:
               questions.find((q) => q.number === number)?.correctAnswer || "",
@@ -230,36 +245,42 @@ const SinglePersonGradingView: React.FC<SinglePersonGradingViewProps> = ({
 
   return (
     <div>
-      {questions?.map((question, index) => (
-        <SingleAnswerGradingCard
-          key={index}
-          number={question.number}
-          question={question.question}
-          isAdditional={question.isAdditional}
-          answer={
-            response?.answers?.find(
-              (answer) => answer.number === question.number
-            )?.answer || ""
-          }
-          correctAnswer={question.correctAnswer}
-          maxPoints={question.points}
-          points={
-            gradingState?.gradedResponses?.find(
-              (gradedResponse) => gradedResponse.number === question.number
-            )?.points
-          }
-          setPoints={(points) => updateGradedResponses(question.number, points)}
-        />
-      ))}
-      <h3 className="text-2xl text-center">
-        Surinkti taškai: {gradingState.points} iš {gradingState.outOf}
-      </h3>
-      <h3 className="text-2xl text-center">Pažymys: {gradingState.grade}</h3>
-      <p>Tiesinė vertinimo sistema: 0 taškų - 2, visi taškai - 10.</p>
-      <h3 className="text-2xl text-center my-4">
-        Papildomų užduočių taškai: {gradingState.additionalPoints} iš{" "}
-        {gradingState.outOfAdditional}
-      </h3>
+      <div className="flex flex-wrap gap-4">
+        {questions?.map((question, index) => (
+          <SingleAnswerGradingCard
+            key={index}
+            number={question.number}
+            question={question.question}
+            isAdditional={question.isAdditional}
+            answer={
+              response?.answers?.find(
+                (answer) => answer.number === question.number
+              )?.answer || ""
+            }
+            correctAnswer={question.correctAnswer}
+            maxPoints={question.points}
+            points={
+              gradingState?.gradedResponses?.find(
+                (gradedResponse) => gradedResponse.number === question.number
+              )?.points
+            }
+            setPoints={(points) =>
+              updateGradedResponses(question.number, points)
+            }
+          />
+        ))}
+      </div>
+      <div className="my-8">
+        <h3 className="text-2xl text-center">
+          Surinkti taškai: {gradingState.points} iš {gradingState.outOf}
+        </h3>
+        <h3 className="text-2xl text-center">Pažymys: {gradingState.grade}</h3>
+        <p>Tiesinė vertinimo sistema: 0 taškų - 2, visi taškai - 10.</p>
+        <h3 className="text-2xl text-center my-4">
+          Papildomų užduočių taškai: {gradingState.additionalPoints} iš{" "}
+          {gradingState.outOfAdditional}
+        </h3>
+      </div>
       <h3>Komentaras mokiniui</h3>
       <input
         type="text"
@@ -270,7 +291,7 @@ const SinglePersonGradingView: React.FC<SinglePersonGradingViewProps> = ({
             teacherComment: e.target.value,
           })
         }
-        placeholder={`Jūsų komentaras mokiniui su ID "${response.studentId}"...`}
+        placeholder={`Jūsų komentaras mokiniui su ID "${response?.studentId}"...`}
       />
     </div>
   );
@@ -298,14 +319,14 @@ const SingleAnswerGradingCard: React.FC<SingleAnswerGradingCardProps> = ({
   points,
 }) => {
   return (
-    <div className="border-black border-2">
-      <div>
+    <div className="bg-gray-200 p-5 rounded-lg my-1 w-full shadow-md text-center">
+      <div className="mb-5">
         {number} {isAdditional ? "* (papildoma)" : ""} {question}
       </div>
-      <div>Mokinio atsakymas: </div>
-      <div>{answer}</div>
-      <div>Teisingas atsakymas:</div>
-      <div>{correctAnswer}</div>
+      <h3 className="text-2xl">Mokinio atsakymas: </h3>
+      <div className="text-xl mb-5">{answer}</div>
+      <div className="text-2xl">Teisingas atsakymas:</div>
+      <div className="text-xl mb-5">{correctAnswer}</div>
       <ButtonNumberInput
         min={0}
         max={maxPoints}

@@ -54,8 +54,16 @@ const DashboardPage: React.FC = () => {
 
   const makeTestPublic = (testId: string) => {
     if (!testList[testId]) {
+      alert("Klaida: testas nerastas");
       throw new Error(`Test with id ${testId} does not exist in testList.`);
     }
+
+    if (
+      !confirm(
+        "Ar tikrai norite paviešinti šį testą? Jei testas buvo atliktas anksčiau, mokinių pateikti duomenys bus ištrinti, palikti tik įvertinti rezultatai."
+      )
+    )
+      return;
 
     // Filter the necessary information
     const test = testList[testId];
@@ -139,8 +147,16 @@ const DashboardPage: React.FC = () => {
 
   const makeTestPrivate = (testId: string) => {
     if (!testList[testId]) {
+      alert("Klaida: testas nerastas");
       throw new Error(`Test with id ${testId} does not exist in testList.`);
     }
+
+    if (
+      !confirm(
+        "Ar tikrai norite užprivatinti šį testą? Mokiniams, šiuo metu rašantiems testą, bus uždrausta jį toliau rašyti, nepateikti atsakymai nebus išsaugoti."
+      )
+    )
+      return;
 
     remove(ref(database, "accessibleTests/" + testId))
       .then(() => {

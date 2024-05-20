@@ -51,6 +51,10 @@ const TestDashboardPage: React.FC = () => {
       <h1>Testo valdymas</h1>
       <h3 className="text-center text-[25px]">{testTitle}</h3>
       <h3 className="text-center">Testo kodas: {testCode}</h3>
+      {/* <h2>Pažymiai paviešinti.</h2>
+      <h2>
+        Vertinimas su uždavinių sąlygomis ir teisingais atsakymais paviešintas.
+      </h2> */}
       {testIsPublic ? (
         <h2 className="text-center">Testas paviešintas</h2>
       ) : (
@@ -58,27 +62,32 @@ const TestDashboardPage: React.FC = () => {
           Testas privatus
         </h2>
       )}
+      <div className="flex gap-4">
+        <button
+          className="w-2/12 bg-teal-600 hover:bg-teal-800"
+          onClick={() => navigate(`/test-create-edit/${testCode}`)}
+        >
+          Redaguoti testą
+        </button>
+        <button
+          className="w-5/12"
+          onClick={() => navigate(`/grading/${testCode}`)}
+        >
+          Vertinti mokinių pateiktus atsakymus
+        </button>
 
-      <button
-        className="w-2/12 bg-teal-600 hover:bg-teal-800"
-        onClick={() => navigate(`/test-create-edit/${testCode}`)}
-      >
-        Redaguoti testą
-      </button>
-      <button
-        className="w-4/12 m-5 "
-        onClick={() => navigate(`/grading/${testCode}`)}
-      >
-        Vertinti mokinių pateiktus atsakymus
-      </button>
-      <button
-        className="w-5/12 bg-amber-500 hover:bg-amber-700"
-        onClick={() => navigate(`/test/${testCode}/mokytojas`)}
-      >
-        Spręsti testą (kaip mokiniui su ID "mokytojas")
-      </button>
+        <button
+          className="w-5/12 bg-amber-500 hover:bg-amber-700"
+          onClick={() => navigate(`/test/${testCode}/mokytojas`)}
+        >
+          Spręsti testą (kaip mokiniui su ID "mokytojas")
+        </button>
+      </div>
+
       <div>
-        <h3>"Nelegalūs" išėjimai iš viso ekrano rėžimo</h3>
+        <h3 className="text-xl my-4">
+          "Nelegalūs" išėjimai iš viso ekrano rėžimo
+        </h3>
         <table>
           <thead>
             <tr>
@@ -106,7 +115,7 @@ const TestDashboardPage: React.FC = () => {
         </table>
       </div>
       <div>
-        <h3>Pateikti sprendimai / atsakymai</h3>
+        <h3 className="text-xl mb-4">Pateikti sprendimai / atsakymai</h3>
         <table>
           <thead>
             <tr>
@@ -151,7 +160,7 @@ const TestDashboardPage: React.FC = () => {
         </table>
       </div>
       <div>
-        <h3>Grįžtamasis ryšys</h3>
+        <h3 className="text-xl mb-4">Grįžtamasis ryšys</h3>
         <table>
           <thead>
             <tr>

@@ -1,5 +1,5 @@
 import { push, ref } from "firebase/database";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { database } from "../../../services/firebaseConfig";
 
@@ -7,6 +7,18 @@ const FeedbackPage: React.FC = () => {
   const { testCode, studentId } = useParams();
   const navigate = useNavigate();
   const [feedback, setFeedback] = useState<string>("");
+
+  useEffect(() => {
+    document
+      .getElementsByTagName("header")
+      .item(0)
+      ?.style.removeProperty("display");
+    document
+      .getElementsByTagName("footer")
+      .item(0)
+      ?.style.setProperty("display", "block");
+  }, [navigate]);
+
   return (
     <div className="input-page-container">
       <form
