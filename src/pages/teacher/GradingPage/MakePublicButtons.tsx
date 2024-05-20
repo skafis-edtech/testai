@@ -24,6 +24,7 @@ const MakePublicButtons: React.FC<{ testCode: string }> = ({ testCode }) => {
         const data = snapshot.val();
         if (data) {
           setGrades(data);
+
           if (isGradesAccessible && !isShowOnlyGrade) {
             set(ref(database, "accessibleGrades/" + testCode), {
               writerEmail: currentUser?.email,
@@ -59,9 +60,7 @@ const MakePublicButtons: React.FC<{ testCode: string }> = ({ testCode }) => {
       ),
       (snapshot) => {
         const data = snapshot.val();
-        if (data !== null) {
-          setIsGradesAccessible(data);
-        }
+        setIsGradesAccessible(data);
       }
     );
     onValue(
@@ -75,9 +74,7 @@ const MakePublicButtons: React.FC<{ testCode: string }> = ({ testCode }) => {
       ),
       (snapshot) => {
         const data = snapshot.val();
-        if (data !== null) {
-          setIsShowOnlyGrade(data);
-        }
+        setIsShowOnlyGrade(data);
       }
     );
   }, []);

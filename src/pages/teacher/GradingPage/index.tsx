@@ -245,7 +245,7 @@ const SinglePersonGradingView: React.FC<SinglePersonGradingViewProps> = ({
 
   return (
     <div>
-      <div className="flex flex-wrap gap-4">
+      <div className="flex flex-wrap gap-4 justify-center">
         {questions?.map((question, index) => (
           <SingleAnswerGradingCard
             key={index}
@@ -319,7 +319,7 @@ const SingleAnswerGradingCard: React.FC<SingleAnswerGradingCardProps> = ({
   points,
 }) => {
   return (
-    <div className="bg-gray-200 p-5 rounded-lg my-1 w-full shadow-md text-center">
+    <div className="bg-gray-200 p-5 rounded-lg my-1 inline w-shadow-md text-center">
       <div className="mb-5">
         {number} {isAdditional ? "* (papildoma)" : ""} {question}
       </div>
