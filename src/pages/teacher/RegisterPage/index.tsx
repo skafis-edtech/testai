@@ -32,7 +32,6 @@ const RegisterPage: React.FC = () => {
       console.error("Error registering user: ", error);
       alert("Klaida: " + error.message);
     }
-    alert("Sėkmingai užregistruota!");
   };
 
   return (
