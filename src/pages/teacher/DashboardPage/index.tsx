@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { database } from "../../../services/firebaseConfig";
-import { onValue, push, ref, remove, set } from "firebase/database";
+import { get, onValue, push, ref, remove, set } from "firebase/database";
 import { UserData } from "../../../utils/TYPES";
 import "./index.css";
 import { useAuth } from "../../../context/AuthContext";
+import TestCard from "./TestCard";
 
 const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
@@ -60,12 +61,11 @@ const DashboardPage: React.FC = () => {
 
     if (
       !confirm(
-        "Ar tikrai norite paviešinti šį testą? Jei testas buvo atliktas anksčiau, mokinių pateikti duomenys bus ištrinti, palikti tik įvertinti rezultatai."
+        "Ar tikrai norite paviešinti šį testą? Jei testas buvo atliktas anksčiau, mokinių pateikti duomenys bus ištrinti, palikti TIK ĮVERTINTI rezultatai."
       )
     )
       return;
 
-    // Filter the necessary information
     const test = testList[testId];
     const filteredTestInfo = {
       writerEmail: currentUser?.email,
@@ -153,7 +153,7 @@ const DashboardPage: React.FC = () => {
 
     if (
       !confirm(
-        "Ar tikrai norite užprivatinti šį testą? Mokiniams, šiuo metu rašantiems testą, bus uždrausta jį toliau rašyti, nepateikti atsakymai nebus išsaugoti."
+        "Ar tikrai norite užprivatinti šį testą? Mokiniams, šiuo metu rašantiems testą, bus uždrausta jį toliau rašyti, nepateikti atsakymai bus ištrinti."
       )
     )
       return;
@@ -233,6 +233,77 @@ const DashboardPage: React.FC = () => {
       });
   };
 
+  const deleteTest = (testId: string) => {
+    if (
+      confirm(
+        "Ar tikrai norite ištrinti šį testą su VISAIS jo duomenimis (užduotys, mokinių atsakymai, įvertinimai)? VEIKSMAS NEGRĮŽTAMAS!!!"
+      )
+    ) {
+      remove(
+        ref(
+          database,
+          "users/" +
+            currentUser?.email?.replace(/\./g, "?") +
+            "/tests/" +
+            testId
+        )
+      );
+      remove(ref(database, "accessibleTests/" + testId));
+      remove(ref(database, "execution/" + testId));
+      remove(ref(database, "accessibleGrades/" + testId));
+      const testCodesInUseRef = ref(database, "testCodesInUse");
+      get(testCodesInUseRef).then((snapshot) => {
+        const data = snapshot.val();
+        const filteredData = data.filter((code: string) => code !== testId);
+        set(testCodesInUseRef, filteredData);
+      });
+      alert("Sėkmingai ištrintas testas " + testId);
+    }
+  };
+  const copyTest = (testId: string) => {
+    const newCode = prompt(
+      "Įveskite testo kopijos kodą (NEBUS GALIMA KEISTI!), kokpijuojama tik užduotys:",
+      testId + "COPY"
+    );
+    if (newCode === null) return;
+    if (usedTestCodes.includes(newCode)) {
+      alert("Toks testo kodas jau egzistuoja");
+      return;
+    }
+    const newTestRef = ref(
+      database,
+      "users/" + currentUser?.email?.replace(/\./g, "?") + "/tests/" + newCode
+    );
+    get(
+      ref(
+        database,
+        "users/" + currentUser?.email?.replace(/\./g, "?") + "/tests/" + testId
+      )
+    ).then((snapshot) => {
+      const data = snapshot.val();
+      set(newTestRef, {
+        lastModified: new Date().toISOString(),
+        test: {
+          title: data.test.title + " KOPIJA",
+          isTestAccessible: false,
+          questions: data.test.questions,
+        },
+      })
+        .then(() => {
+          set(ref(database, "testCodesInUse"), [...usedTestCodes, newCode])
+            .then(() => navigate(`/test-create-edit/${newCode}`))
+            .catch((error) => {
+              console.error("Error updating testCodesInUse: ", error);
+              alert("Klaida: " + error.message);
+            });
+        })
+        .catch((error) => {
+          console.error("Error creating new test: ", error);
+          alert("Klaida: " + error.message);
+        });
+    });
+  };
+
   return (
     <div className="view-page-container">
       <h1>Mokytojo aplinka</h1>
@@ -243,6 +314,7 @@ const DashboardPage: React.FC = () => {
       <div className="dashboard-test-list">
         <div className="test-list-item new-test-item">
           <div className="test-title">Kurti naują testą</div>
+          <p className="text-left">Testo kodo nebus galima keisti!</p>
           <input
             type="text"
             placeholder="Įveskite naujo testo kodą"
@@ -258,41 +330,21 @@ const DashboardPage: React.FC = () => {
           </button>
         </div>
         {testList &&
-          sortedKeys.map((key) => (
-            <div className="test-list-item" key={key}>
-              <button
-                className="goto-test-button"
-                onClick={() => navigate(`/test-dashboard/${key}`)}
-              >
-                <div className="test-title">{testList[key]?.test?.title}</div>
-                <div className="test-key">Kodas: {key}</div>
-                <div className="test-date">
-                  Keista: {testList[key]?.lastModified?.slice(0, 10)}
-                </div>
-              </button>
-              {testList[key]?.test?.isTestAccessible ? (
-                <div className="status-container">
-                  <div className="status-public">VIEŠAS</div>
-                  <button
-                    className="make-private-button"
-                    onClick={() => makeTestPrivate(key)}
-                  >
-                    Užprivatinti
-                  </button>
-                </div>
-              ) : (
-                <div className="status-container">
-                  <div className="status-private">PRIVATUS</div>
-                  <button
-                    className="make-public-button"
-                    onClick={() => makeTestPublic(key)}
-                  >
-                    Viešinti
-                  </button>
-                </div>
-              )}
-            </div>
-          ))}
+          sortedKeys.map((key) => {
+            if (testList[key]) {
+              return (
+                <TestCard
+                  key={key}
+                  testCode={key}
+                  test={testList[key]}
+                  makeTestPrivate={makeTestPrivate}
+                  makeTestPublic={makeTestPublic}
+                  deleteTest={deleteTest}
+                  copyTest={copyTest}
+                />
+              );
+            }
+          })}
       </div>
     </div>
   );

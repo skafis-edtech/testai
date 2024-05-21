@@ -48,45 +48,46 @@ const TestDashboardPage: React.FC = () => {
 
   return (
     <div className="view-page-container">
-      <h1>Testo valdymas</h1>
-      <h3 className="text-center text-[25px]">{testTitle}</h3>
-      <h3 className="text-center">Testo kodas: {testCode}</h3>
-      {/* <h2>Pažymiai paviešinti.</h2>
-      <h2>
-        Vertinimas su uždavinių sąlygomis ir teisingais atsakymais paviešintas.
-      </h2> */}
-      {testIsPublic ? (
-        <h2 className="text-center">Testas paviešintas</h2>
-      ) : (
-        <h2 className="text-center" style={{ color: "green" }}>
-          Testas privatus
-        </h2>
-      )}
-      <div className="flex gap-4">
-        <button
-          className="w-2/12 bg-teal-600 hover:bg-teal-800"
-          onClick={() => navigate(`/test-create-edit/${testCode}`)}
-        >
-          Redaguoti testą
-        </button>
-        <button
-          className="w-5/12"
-          onClick={() => navigate(`/grading/${testCode}`)}
-        >
-          Vertinti mokinių pateiktus atsakymus
-        </button>
-
-        <button
-          className="w-5/12 bg-amber-500 hover:bg-amber-700"
-          onClick={() => navigate(`/test/${testCode}/mokytojas`)}
-        >
-          Spręsti testą (kaip mokiniui su ID "mokytojas")
-        </button>
+      <div className="flex">
+        <div className="w-3/12">
+          <button className="max-w-96" onClick={() => navigate("/dashboard")}>
+            Grįžti į mokytojo aplinkos pradinį puslapį
+          </button>
+        </div>
+        <div className="w-6/12">
+          <h1>Testo valdymas</h1>
+          <h3 className="text-center text-[25px]">{testTitle}</h3>
+          <h3 className="text-center">Testo kodas: {testCode}</h3>
+          {testIsPublic ? (
+            <h2 className="text-center">Testas paviešintas</h2>
+          ) : (
+            <h2 className="text-center" style={{ color: "green" }}>
+              Testas privatus
+            </h2>
+          )}
+        </div>
+        <div className="w-3/12">
+          <div className=" m-auto">
+            <button
+              className=" bg-amber-500 hover:bg-amber-700 px-2 py-1 text-sm"
+              onClick={() => navigate(`/test/${testCode}/mokytojas`)}
+            >
+              Spręsti testą (kaip mokiniui su ID "mokytojas")
+            </button>
+            <button
+              className=" bg-teal-600 hover:bg-teal-800"
+              onClick={() => navigate(`/grading/${testCode}`)}
+            >
+              Vertinti mokinių pateiktus atsakymus
+            </button>
+          </div>
+        </div>
       </div>
 
       <div>
         <h3 className="text-xl my-4">
-          "Nelegalūs" išėjimai iš viso ekrano rėžimo
+          "Nelegalūs" išėjimai iš viso ekrano rėžimo (neišsisaugo ilgalaikėje
+          atmintyje)
         </h3>
         <table>
           <thead>

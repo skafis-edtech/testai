@@ -210,12 +210,18 @@ const MakePublicButtons: React.FC<{ testCode: string }> = ({ testCode }) => {
           </button>
         )}
         {(!isGradesAccessible || isShowOnlyGrade) && (
-          <button className="w-1/2" onClick={makeAllGradingPublic}>
+          <button
+            className="w-1/2 bg-green-500 hover:bg-green-700"
+            onClick={makeAllGradingPublic}
+          >
             Viešinti įvertinimus su atsakymais
           </button>
         )}
         {isGradesAccessible && (
-          <button className="w-1/2" onClick={makeAllGradingPrivate}>
+          <button
+            className="w-1/2 bg-red-600 hover:bg-red-800"
+            onClick={makeAllGradingPrivate}
+          >
             Užprivatinti įvertinimus
           </button>
         )}
