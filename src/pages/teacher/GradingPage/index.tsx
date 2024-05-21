@@ -10,6 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import MakePublicButtons from "./MakePublicButtons";
 import SinglePersonGradingView from "./SinglePersonGradingView";
+import OverallResults from "./OverallResults";
 
 const GradingPage: React.FC = () => {
   const { testCode } = useParams();
@@ -123,6 +124,7 @@ const GradingPage: React.FC = () => {
           <h3 className="text-center mb-4 text-2xl">{title}</h3>
           <h3 className="text-center mb-4 text-2xl">Testo kodas: {testCode}</h3>
           <p>Vertinimas išsisaugo automatiškai.</p>
+          <p>Įvertinimų suvestinė pateikiama puslapio apačioje.</p>
         </div>
         <div className="w-3/12">
           {testCode && <MakePublicButtons testCode={testCode} />}
@@ -171,6 +173,18 @@ const GradingPage: React.FC = () => {
           )}
         </div>
       ))}
+      <OverallResults
+        results={
+          privateGradeData?.grades?.map((grade) => ({
+            studentId: grade.student,
+            grade: `${grade.grade.toString()}${
+              grade.outOfAdditional > 0
+                ? `  (+${grade.additionalPoints} t. papildomai)`
+                : ""
+            }`,
+          })) || []
+        }
+      />
       <button onClick={() => navigate(`/test-dashboard/${testCode}`)}>
         Grįžti į puslapį "Testo valdymas" (vertinimas išsaugotas automatiškai)
       </button>

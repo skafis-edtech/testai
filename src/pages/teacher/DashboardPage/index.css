@@ -13,13 +13,6 @@
   width: 200px;
 }
 
-.email-div {
-  margin: 40px 20px 0 auto;
-  width: 300px;
-  font-size: 1.2em;
-  text-align: right;
-}
-
 .logout-btn:hover {
   background-color: #2980b9;
 }

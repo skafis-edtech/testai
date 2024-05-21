@@ -59,13 +59,6 @@ const DashboardPage: React.FC = () => {
       throw new Error(`Test with id ${testId} does not exist in testList.`);
     }
 
-    if (
-      !confirm(
-        "Ar tikrai norite paviešinti šį testą? Jei testas buvo atliktas anksčiau, mokinių pateikti duomenys bus ištrinti, palikti TIK ĮVERTINTI rezultatai."
-      )
-    )
-      return;
-
     const test = testList[testId];
     const filteredTestInfo = {
       writerEmail: currentUser?.email,
@@ -108,24 +101,35 @@ const DashboardPage: React.FC = () => {
         )
           .then(() => {
             if (ref(database, "execution/" + testId)) {
-              set(ref(database, "execution/" + testId), {
-                readerEmail: currentUser?.email,
-              })
+              set(
+                ref(database, "execution/" + testId + "/readerEmail"),
+                currentUser?.email
+              )
                 .then(() => {
-                  push(ref(database, "execution/" + testId + "/responses"), {
-                    studentId: "testas paviešintas",
-                    timestamp: new Date().toISOString(),
-                  });
-                  push(
-                    ref(database, "execution/" + testId + "/fullscreenExits"),
-                    {
-                      studentId: "testas paviešintas",
-                      timestamp: new Date().toISOString(),
+                  get(ref(database, "execution/" + testId)).then((snapshot) => {
+                    if (!snapshot.exists() || !snapshot.val()) {
+                      push(
+                        ref(database, "execution/" + testId + "/responses"),
+                        {
+                          studentId: "testas paviešintas",
+                          timestamp: new Date().toISOString(),
+                        }
+                      );
+                      push(
+                        ref(
+                          database,
+                          "execution/" + testId + "/fullscreenExits"
+                        ),
+                        {
+                          studentId: "testas paviešintas",
+                          timestamp: new Date().toISOString(),
+                        }
+                      );
+                      push(ref(database, "execution/" + testId + "/feedback"), {
+                        studentId: "testas paviešintas",
+                        timestamp: new Date().toISOString(),
+                      });
                     }
-                  );
-                  push(ref(database, "execution/" + testId + "/feedback"), {
-                    studentId: "testas paviešintas",
-                    timestamp: new Date().toISOString(),
                   });
                 })
                 .catch((error) => {
@@ -306,11 +310,26 @@ const DashboardPage: React.FC = () => {
 
   return (
     <div className="view-page-container">
-      <h1>Mokytojo aplinka</h1>
-      <div className="email-div">{currentUser?.email || "Kraunasi..."}</div>
-      <button className="logout-btn" onClick={() => navigate("/logout")}>
-        Atsijungti
-      </button>
+      <div className="flex mt-4 mb-12">
+        <div className="w-3/12">
+          <button
+            className="bg-green-600 hover:bg-green-800"
+            onClick={() => navigate("/export")}
+          >
+            Duomenų eksportas
+          </button>
+        </div>
+        <div className="w-6/12">
+          <h1>Mokytojo aplinka</h1>
+        </div>
+        <div className="w-3/12">
+          <div className="text-xl">{currentUser?.email || "Kraunasi..."}</div>
+          <button className="logout-btn" onClick={() => navigate("/logout")}>
+            Atsijungti
+          </button>
+        </div>
+      </div>
+
       <div className="dashboard-test-list">
         <div className="test-list-item new-test-item">
           <div className="test-title">Kurti naują testą</div>

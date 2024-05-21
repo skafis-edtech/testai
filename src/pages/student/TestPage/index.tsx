@@ -101,19 +101,10 @@ const TestPage: React.FC = () => {
       <h2>{testData?.description}</h2>
       {testData?.questions?.map((q, index) => (
         <div key={index}>
-          {testData?.specialSymbols && (
-            <>
-              <p>Simboliai kopijavimui:</p>
-              <div style={{ display: "flex", height: "90px" }}>
-                {testData?.specialSymbols?.split("").map((symbol, index) => (
-                  <CopyButton key={index} text={symbol} />
-                ))}
-              </div>
-            </>
-          )}
           <label>{`${q.number}${q.isAdditional ? "* (papildoma)" : " "} ${
             q.question
           } (${q.points} t.)`}</label>
+
           {q.points > 1 ? (
             <textarea
               value={answers.find((a) => a.number === q.number)?.answer}
@@ -143,6 +134,16 @@ const TestPage: React.FC = () => {
               }
               name="answer"
             />
+          )}
+          {testData?.specialSymbols && (
+            <div className="mb-8">
+              <p>Simboliai kopijavimui:</p>
+              <div style={{ display: "flex", height: "90px" }}>
+                {testData?.specialSymbols?.split("").map((symbol, index) => (
+                  <CopyButton key={index} text={symbol} />
+                ))}
+              </div>
+            </div>
           )}
         </div>
       ))}

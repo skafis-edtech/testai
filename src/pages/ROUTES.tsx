@@ -4,6 +4,7 @@ import GradePage from "./student/GradePage";
 import HomePage from "./student/HomePage";
 import TestPage from "./student/TestPage";
 import DashboardPage from "./teacher/DashboardPage";
+import ExportPage from "./teacher/ExportPage";
 import GradingPage from "./teacher/GradingPage";
 import LoginPage from "./teacher/LoginPage";
 import LogoutPage from "./teacher/LogoutPage";
@@ -44,6 +45,11 @@ export const privateRoutes: IRoute[] = [
     path: "/test-create-edit/:testCode",
     title: "Test Create Edit",
     element: <TestCreateEditPage />,
+  },
+  {
+    path: "/export",
+    title: "Export",
+    element: <ExportPage />,
   },
 ];
 
