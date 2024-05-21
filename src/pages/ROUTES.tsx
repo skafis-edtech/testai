@@ -1,3 +1,4 @@
+import SupportPage from "./SupportPage";
 import UserGuidePage from "./UserGuidePage";
 import FeedbackPage from "./student/FeedbackPage";
 import GradePage from "./student/GradePage";
@@ -99,6 +100,11 @@ export const publicRoutes: IRoute[] = [
     path: "/user-guide",
     title: "User Guide",
     element: <UserGuidePage />,
+  },
+  {
+    path: "/support",
+    title: "Support",
+    element: <SupportPage />,
   },
   {
     path: "*",

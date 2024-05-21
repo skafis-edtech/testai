@@ -45,6 +45,9 @@ const TermsPage: React.FC = () => {
         Klausimus užduoti, pasiūlymus ar priekaištus reikšti el. paštu{" "}
         <a href="mailto:naglis.suliokas@gmail.com">naglis.suliokas@gmail.com</a>
       </p>
+      <h1>
+        Buvo įdėta daug darbo... Pasvarstykite <a href="/support">paremti</a>!
+      </h1>
       <p>
         Norėdami sugrįžti prie registracijos tiesiog uždarykite šį skirtuką.
       </p>

@@ -9,9 +9,13 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <header>
-          <div className="w-3/12"></div>
+          <div className="w-3/12">
+            <a href="/support">Prisidėk</a>
+          </div>
           <div className="w-4/12 text-center">
-            <a href="/">Skafis testavimo platforma</a>
+            <a href="/" className="text-2xl text-black">
+              Skafis testavimo platforma
+            </a>
           </div>
           <div className="w-3/12 text-right">
             <a href="/user-guide" target="_blank">
