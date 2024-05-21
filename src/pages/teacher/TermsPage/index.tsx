@@ -1,7 +1,7 @@
 import "./index.css";
 const TermsPage: React.FC = () => {
   return (
-    <div className="terms-page">
+    <div className="terms-page flex flex-col gap-3">
       <h1>Taisyklės</h1>
       <p>
         Registruodamasi į šią platformą, Jūs sutinkate, kad Jūsų el. paštas bus
@@ -40,6 +40,7 @@ const TermsPage: React.FC = () => {
           https://firebase.google.com/terms/data-processing-terms
         </a>
       </p>
+      <p>Platformos veikimo principus rasite "Naudotojo gide".</p>
       <p>
         Klausimus užduoti, pasiūlymus ar priekaištus reikšti el. paštu{" "}
         <a href="mailto:naglis.suliokas@gmail.com">naglis.suliokas@gmail.com</a>

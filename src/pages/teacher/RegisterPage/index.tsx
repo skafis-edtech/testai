@@ -37,7 +37,7 @@ const RegisterPage: React.FC = () => {
 
   return (
     <div className="centered-input-page-container">
-      <form onSubmit={registerUser}>
+      <form className="mb-4" onSubmit={registerUser}>
         <h1>Mokytojo registracija</h1>
         <input
           type="email"
@@ -71,7 +71,8 @@ const RegisterPage: React.FC = () => {
           Sutinku su{" "}
           <a href="/terms" target="_blank">
             taisyklėmis
-          </a>
+          </a>{" "}
+          (prašau, perskaitykit...)
         </label>
         <button type="submit">Registruotis</button>{" "}
       </form>

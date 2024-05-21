@@ -1,3 +1,4 @@
+import UserGuidePage from "./UserGuidePage";
 import FeedbackPage from "./student/FeedbackPage";
 import GradePage from "./student/GradePage";
 import HomePage from "./student/HomePage";
@@ -88,7 +89,11 @@ export const publicRoutes: IRoute[] = [
     title: "Recover Password",
     element: <RecoverPasswordPage />,
   },
-
+  {
+    path: "/user-guide",
+    title: "User Guide",
+    element: <UserGuidePage />,
+  },
   {
     path: "*",
     title: "Not Found",

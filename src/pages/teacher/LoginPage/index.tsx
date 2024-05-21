@@ -35,7 +35,7 @@ const LoginPage: React.FC = () => {
   return (
     <div className="centered-input-page-container">
       <h1>Mokytojo prisijungimas</h1>
-      <form onSubmit={loginUser}>
+      <form className="mb-4" onSubmit={loginUser}>
         <input
           type="email"
           value={email}

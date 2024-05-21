@@ -9,8 +9,14 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <header>
-          <div>
+          <div className="w-3/12"></div>
+          <div className="w-4/12 text-center">
             <a href="/">Skafis testavimo platforma</a>
+          </div>
+          <div className="w-3/12 text-right">
+            <a href="/user-guide" target="_blank">
+              Naudotojo gidas
+            </a>
           </div>
         </header>
         <main>
@@ -48,7 +54,7 @@ function App() {
               npw.lt
             </a>
           </p>
-          <p>Paskutinį kartą atnaujinta: 2024-05-17</p>
+          <p>Paskutinį kartą atnaujinta: 2024-05-21</p>
         </footer>
       </AuthProvider>
     </BrowserRouter>

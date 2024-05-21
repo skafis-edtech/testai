@@ -15,9 +15,7 @@ const ButtonNumberInput: React.FC<ButtonNumberInputProps> = ({
     {Array.from({ length: max - min + 1 }, (_, i) => (
       <button
         className={`num-btn transition-none ${
-          value === i
-            ? "bg-green-600 hover:bg-green-600"
-            : "bg-blue-500 hover:bg-blue-600"
+          value === i ? "bg-green-600 " : "bg-gray-400 hover:bg-gray-500"
         }`}
         key={i}
         onClick={() => setValue(i)}
