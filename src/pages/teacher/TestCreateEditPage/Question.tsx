@@ -1,4 +1,5 @@
 import { UserData } from "../../../utils/TYPES";
+import ImageUploadTextarea from "./ImageUploadTextarea";
 
 interface QuestionProps {
   question: UserData["tests"][string]["test"]["questions"][number];
@@ -7,6 +8,7 @@ interface QuestionProps {
   testData: UserData["tests"][string];
   soonDeleted: number;
   setSoonDeleted: React.Dispatch<React.SetStateAction<number>>;
+  testCode: string | undefined;
 }
 
 const Question: React.FC<QuestionProps> = ({
@@ -16,6 +18,7 @@ const Question: React.FC<QuestionProps> = ({
   testData,
   soonDeleted,
   setSoonDeleted,
+  testCode,
 }) => {
   return (
     <div
@@ -47,21 +50,25 @@ const Question: React.FC<QuestionProps> = ({
         <div>
           <label>Klausimas:</label>
           <br />
-          <textarea
-            value={question.question}
-            onChange={(e) => {
+          <ImageUploadTextarea
+            textareaContent={question.question}
+            setTextareaContent={(text?: string, imageFilename?: string) => {
               setTestData((prev) => {
                 const newQuestions = [...prev.test.questions];
-                newQuestions[index].question = e.target.value;
+                if (text) {
+                  newQuestions[index].question = text;
+                }
+                if (imageFilename) {
+                  newQuestions[index].imageFilename = imageFilename;
+                }
                 return {
                   ...prev,
                   test: { ...prev.test, questions: newQuestions },
                 };
               });
             }}
-            name="question"
-            placeholder="Jei duodate užduotis ant popieriaus, palikite laukelį tuščią..."
-          ></textarea>
+            testCode={testCode}
+          />
         </div>
         <div>
           <label>Teisingas atsakymas / sprendimas:</label>

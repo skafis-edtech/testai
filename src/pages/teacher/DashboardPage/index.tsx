@@ -69,6 +69,7 @@ const DashboardPage: React.FC = () => {
         number: question.number || "???",
         points: question.points,
         question: question.question || "",
+        imageFilename: question.imageFilename || null,
       })),
       specialSymbols: test.test.specialSymbols || "",
     };

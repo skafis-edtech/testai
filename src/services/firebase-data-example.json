@@ -110,7 +110,8 @@
                 "isAdditional": false,
                 "number": "1.1.",
                 "points": 3,
-                "question": "Who are you?"
+                "question": "Who are you?",
+                "imageFilename": "5d35f124-a5f6-4e64-af09-62e1c1b611f3.png"
               }
             ],
             "specialSymbols": "/ ~ ?",
@@ -197,7 +198,8 @@
                 "isAdditional": false,
                 "number": "1.1.",
                 "points": 3,
-                "question": "Who are you?"
+                "question": "Who are you?",
+                "imageFilename": "5d35f124-a5f6-4e64-af09-62e1c1b611f3.png"
               }
             ],
             "specialSymbols": "/ ~ ?",

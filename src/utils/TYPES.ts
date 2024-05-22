@@ -33,6 +33,7 @@ export interface PrivateTestData {
     correctAnswer: string;
     points: number;
     isAdditional: boolean;
+    imageFilename?: string;
   }[];
   isTestAccessible: boolean;
 }
@@ -81,6 +82,7 @@ export interface AccessibleTest {
     question: string;
     points: number;
     isAdditional: boolean;
+    imageFilename?: string;
   }[];
 }
 

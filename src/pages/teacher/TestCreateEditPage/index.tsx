@@ -165,6 +165,7 @@ const TestCreateEditPage: React.FC = () => {
             testData={testData}
             soonDeleted={soonDeleted}
             setSoonDeleted={setSoonDeleted}
+            testCode={testCode}
           />
         ))}
 
