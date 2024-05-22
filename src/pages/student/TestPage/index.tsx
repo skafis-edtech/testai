@@ -2,8 +2,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { AccessibleTest } from "../../../utils/TYPES";
 import { useEffect, useState } from "react";
 import { onValue, push, ref } from "firebase/database";
-import { database } from "../../../services/firebaseConfig";
+import { ref as storageRef } from "firebase/storage";
+import { database, storage } from "../../../services/firebaseConfig";
 import usePersistentState from "../../../hooks/usePersistentState";
+import { getDownloadURL } from "firebase/storage";
+import ImageFetcher from "./ImageFetcher";
 
 const TestPage: React.FC = () => {
   const navigate = useNavigate();
@@ -90,6 +93,14 @@ const TestPage: React.FC = () => {
     });
   };
 
+  const getImageSrc = (imageFilename: string) => {
+    const storageeRef = storageRef(
+      storage,
+      `${testData?.writerEmail}/${testCode}/${imageFilename}`
+    );
+    return getDownloadURL(storageeRef).then((url) => url);
+  };
+
   return (
     <div className="input-page-container mt-4">
       <h1>{testData?.title}</h1>
@@ -104,7 +115,13 @@ const TestPage: React.FC = () => {
           <label>{`${q.number}${q.isAdditional ? "* (papildoma)" : " "} ${
             q.question
           } (${q.points} t.)`}</label>
-
+          {q.imageFilename && testCode && (
+            <ImageFetcher
+              filename={q.imageFilename}
+              userEmail={testData?.writerEmail}
+              testCode={testCode}
+            />
+          )}
           {q.points > 1 ? (
             <textarea
               value={answers.find((a) => a.number === q.number)?.answer}

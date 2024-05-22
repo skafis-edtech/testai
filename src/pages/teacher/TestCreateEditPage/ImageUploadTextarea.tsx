@@ -1,12 +1,19 @@
 import React, { useState, useRef, useEffect } from "react";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { storage } from "../../../services/firebaseConfig";
-import { deleteObject, ref, uploadString } from "firebase/storage";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadString,
+} from "firebase/storage";
 import { useAuth } from "../../../context/AuthContext";
 
 interface ImageUploadTextareaProps {
   textareaContent: string;
-  setTextareaContent: (text?: string, imageFilename?: string) => void;
+  setTextareaContent: (text: string) => void;
+  imageFilenameInQ: string | null;
+  setImageFilenameInQ: (imageFilename: string) => void;
   testCode: string | undefined;
 }
 
@@ -14,11 +21,15 @@ const ImageUploadTextarea: React.FC<ImageUploadTextareaProps> = ({
   textareaContent,
   setTextareaContent,
   testCode,
+  imageFilenameInQ,
+  setImageFilenameInQ,
 }) => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [imageFilename, setImageFilename] = useState<string | null>(null);
+  const [imageFilename, setImageFilename] = useState<string | null>(
+    imageFilenameInQ
+  );
 
   const { currentUser } = useAuth();
 
@@ -49,6 +60,18 @@ const ImageUploadTextarea: React.FC<ImageUploadTextareaProps> = ({
     };
   }, []);
 
+  useEffect(() => {
+    if (imageFilenameInQ) {
+      const storageRef = ref(
+        storage,
+        `${currentUser?.email}/${testCode}/${imageFilenameInQ}`
+      );
+      getDownloadURL(storageRef).then((url) => {
+        setImageSrc(url);
+      });
+    }
+  }, [imageFilenameInQ]);
+
   const handleDragOver = (e: React.DragEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
     e.stopPropagation();
@@ -74,7 +97,7 @@ const ImageUploadTextarea: React.FC<ImageUploadTextareaProps> = ({
   };
 
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setTextareaContent(e.target.value, undefined);
+    setTextareaContent(e.target.value);
   };
 
   const handleRemoveImage = () => {
@@ -82,7 +105,7 @@ const ImageUploadTextarea: React.FC<ImageUploadTextareaProps> = ({
       ref(storage, `${currentUser?.email}/${testCode}/${imageFilename}`)
     )
       .then(() => {
-        setTextareaContent(undefined, "");
+        setImageFilenameInQ("");
         setImageSrc(null);
         setImageFilename(null);
       })
@@ -97,8 +120,6 @@ const ImageUploadTextarea: React.FC<ImageUploadTextareaProps> = ({
 
     const reader = new FileReader();
     reader.onload = () => {
-      setImageSrc(reader.result as string);
-
       // Upload the image to Firebase Storage
       const storageRef = ref(
         storage,
@@ -107,16 +128,15 @@ const ImageUploadTextarea: React.FC<ImageUploadTextareaProps> = ({
       uploadString(storageRef, reader.result as string, "data_url")
         .then((snapshot) => {
           console.log("Uploaded a data_url string!", snapshot);
+          // update realtime db
+          setImageFilenameInQ(randomFilename);
+          setImageFilename(randomFilename);
         })
         .catch((error) => {
           console.error("Upload failed", error);
         });
     };
     reader.readAsDataURL(file);
-
-    // update realtime db
-    setTextareaContent(undefined, randomFilename);
-    setImageFilename(randomFilename);
   };
 
   return (

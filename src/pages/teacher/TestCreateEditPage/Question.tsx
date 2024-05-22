@@ -52,15 +52,21 @@ const Question: React.FC<QuestionProps> = ({
           <br />
           <ImageUploadTextarea
             textareaContent={question.question}
-            setTextareaContent={(text?: string, imageFilename?: string) => {
+            setTextareaContent={(text: string) => {
               setTestData((prev) => {
                 const newQuestions = [...prev.test.questions];
-                if (text) {
-                  newQuestions[index].question = text;
-                }
-                if (imageFilename) {
-                  newQuestions[index].imageFilename = imageFilename;
-                }
+                newQuestions[index].question = text;
+                return {
+                  ...prev,
+                  test: { ...prev.test, questions: newQuestions },
+                };
+              });
+            }}
+            imageFilenameInQ={question.imageFilename || null}
+            setImageFilenameInQ={(imageFilename: string) => {
+              setTestData((prev) => {
+                const newQuestions = [...prev.test.questions];
+                newQuestions[index].imageFilename = imageFilename;
                 return {
                   ...prev,
                   test: { ...prev.test, questions: newQuestions },
