@@ -2,10 +2,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { AccessibleTest } from "../../../utils/TYPES";
 import { useEffect, useState } from "react";
 import { onValue, push, ref } from "firebase/database";
-import { ref as storageRef } from "firebase/storage";
-import { database, storage } from "../../../services/firebaseConfig";
+import { database } from "../../../services/firebaseConfig";
 import usePersistentState from "../../../hooks/usePersistentState";
-import { getDownloadURL } from "firebase/storage";
 import ImageFetcher from "./ImageFetcher";
 
 const TestPage: React.FC = () => {
@@ -91,14 +89,6 @@ const TestPage: React.FC = () => {
       alert("Testas sėkmingai pateiktas vertinimui!");
       navigate("/feedback/" + testCode + "/" + studentId);
     });
-  };
-
-  const getImageSrc = (imageFilename: string) => {
-    const storageeRef = storageRef(
-      storage,
-      `${testData?.writerEmail}/${testCode}/${imageFilename}`
-    );
-    return getDownloadURL(storageeRef).then((url) => url);
   };
 
   return (
