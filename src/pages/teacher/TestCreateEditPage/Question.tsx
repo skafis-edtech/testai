@@ -1,5 +1,8 @@
+import { deleteObject, ref } from "firebase/storage";
 import { UserData } from "../../../utils/TYPES";
 import ImageUploadTextarea from "./ImageUploadTextarea";
+import { storage } from "../../../services/firebaseConfig";
+import { useAuth } from "../../../context/AuthContext";
 
 interface QuestionProps {
   question: UserData["tests"][string]["test"]["questions"][number];
@@ -20,6 +23,16 @@ const Question: React.FC<QuestionProps> = ({
   setSoonDeleted,
   testCode,
 }) => {
+  const { currentUser } = useAuth();
+
+  const handleRemoveImage = (filename: string) => {
+    deleteObject(
+      ref(storage, `${currentUser?.email}/${testCode}/${filename}`)
+    ).catch((error) => {
+      console.error("Uh-oh, an error occurred!", error);
+    });
+  };
+
   return (
     <div
       className={`flex flex-col lg:flex-row gap-8 p-5  ${
@@ -175,6 +188,9 @@ const Question: React.FC<QuestionProps> = ({
                 };
               });
               setSoonDeleted(-1);
+              if (question.imageFilename) {
+                handleRemoveImage(question.imageFilename);
+              }
             }}
             onMouseEnter={() => setSoonDeleted(index)}
             onMouseLeave={() => setSoonDeleted(-1)}

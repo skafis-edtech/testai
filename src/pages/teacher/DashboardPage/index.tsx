@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { database } from "../../../services/firebaseConfig";
+import { database, storage } from "../../../services/firebaseConfig";
 import { get, onValue, push, ref, remove, set } from "firebase/database";
+import {
+  ref as storageRef,
+  listAll,
+  getDownloadURL,
+  uploadBytes,
+  deleteObject,
+} from "firebase/storage";
 import { UserData } from "../../../utils/TYPES";
 import "./index.css";
 import { useAuth } from "../../../context/AuthContext";
@@ -238,10 +245,31 @@ const DashboardPage: React.FC = () => {
       });
   };
 
+  const deleteFolder = async (folderPath: string) => {
+    const folderRef = storageRef(storage, folderPath);
+
+    try {
+      const listResult = await listAll(folderRef);
+
+      // Create a promise for each file to delete
+      const deletePromises = listResult.items.map((fileRef) =>
+        deleteObject(fileRef)
+      );
+
+      // Wait for all files to be deleted
+      await Promise.all(deletePromises);
+
+      console.log("Folder and all files deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting folder:", error);
+      alert("Failed to delete folder");
+    }
+  };
+
   const deleteTest = (testId: string) => {
     if (
       confirm(
-        "Ar tikrai norite ištrinti šį testą su VISAIS jo duomenimis (užduotys, mokinių atsakymai, įvertinimai)? VEIKSMAS NEGRĮŽTAMAS!!!"
+        "Ar tikrai norite ištrinti šį testą su VISAIS jo duomenimis (užduotys, mokinių atsakymai, įvertinimai)?\nVEIKSMAS NEGRĮŽTAMAS!!!"
       )
     ) {
       remove(
@@ -262,17 +290,56 @@ const DashboardPage: React.FC = () => {
         const filteredData = data.filter((code: string) => code !== testId);
         set(testCodesInUseRef, filteredData);
       });
-      alert("Sėkmingai ištrintas testas " + testId);
+      deleteFolder(`${currentUser?.email}/${testId}`).then(() => {
+        alert("Sėkmingai ištrintas testas su kodu " + testId);
+      });
     }
   };
+
+  async function copyFolder(sourceFolder: string, destinationFolder: string) {
+    const sourceRef = storageRef(storage, sourceFolder);
+
+    try {
+      const listResult = await listAll(sourceRef);
+
+      for (const item of listResult.items) {
+        const itemName = item.name;
+        const destinationRef = storageRef(
+          storage,
+          `${destinationFolder}/${itemName}`
+        );
+
+        // Get the download URL for the current item
+        const downloadURL = await getDownloadURL(item);
+
+        // Fetch the file content
+        const response = await fetch(downloadURL);
+        const blob = await response.blob();
+
+        // Upload the file to the new location
+        await uploadBytes(destinationRef, blob);
+        console.log(`Copied ${itemName} to ${destinationFolder}`);
+      }
+
+      console.log("Folder copied successfully!");
+    } catch (error) {
+      console.error("Error copying folder:", error);
+    }
+  }
+
   const copyTest = (testId: string) => {
     const newCode = prompt(
-      "Įveskite testo kopijos kodą (NEBUS GALIMA KEISTI!), kokpijuojama tik užduotys:",
+      "Įveskite testo kopijos kodą (NEBUS GALIMA KEISTI!).\nKopijuojama tik užduotys (be mokinių sprendimų), gali tekti luktelti, kol nusikopijuos paveikslėlių failai.\nTesto kodą veskite didžiosiomis raidėmis!",
       testId + "COPY"
     );
+
     if (newCode === null) return;
     if (usedTestCodes.includes(newCode)) {
       alert("Toks testo kodas jau egzistuoja");
+      return;
+    }
+    if (!/^[A-Z]+$/.test(newCode)) {
+      alert("Prašome įvesti tik didžiąsias raides!");
       return;
     }
     const newTestRef = ref(
@@ -296,7 +363,19 @@ const DashboardPage: React.FC = () => {
       })
         .then(() => {
           set(ref(database, "testCodesInUse"), [...usedTestCodes, newCode])
-            .then(() => navigate(`/test-create-edit/${newCode}`))
+            .then(() => {
+              copyFolder(
+                `${currentUser?.email}/${testId}`,
+                `${currentUser?.email}/${newCode}`
+              )
+                .then(() => {
+                  navigate(`/test-create-edit/${newCode}`);
+                })
+                .catch((error) => {
+                  console.error("Error copying folder: ", error);
+                  alert("Klaida: " + error.message);
+                });
+            })
             .catch((error) => {
               console.error("Error updating testCodesInUse: ", error);
               alert("Klaida: " + error.message);

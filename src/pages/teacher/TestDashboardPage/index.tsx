@@ -86,8 +86,7 @@ const TestDashboardPage: React.FC = () => {
 
       <div>
         <h3 className="text-xl my-4">
-          "Nelegalūs" išėjimai iš viso ekrano rėžimo (neišsisaugo ilgalaikėje
-          atmintyje)
+          "Nelegalūs" išėjimai iš viso ekrano rėžimo
         </h3>
         <table>
           <thead>

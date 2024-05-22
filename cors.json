@@ -1,0 +1,14 @@
+[
+  {
+    "origin": [
+      "http://localhost:5173",
+      "https://testai-skafis.web.app",
+      "https://testai-skafis.firebaseapp.com",
+      "https://testai.skafis.lt",
+      "https://testai.skafis.com"
+    ],
+    "method": ["GET", "HEAD", "PUT", "POST", "DELETE"],
+    "maxAgeSeconds": 3600,
+    "responseHeader": ["Content-Type", "Authorization"]
+  }
+]
