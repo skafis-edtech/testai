@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
 interface OverallResultsProps {
-  results: { studentId: string; grade: string }[];
+  results: { studentId: string; grade: string; points: string }[];
 }
 
 const OverallResults: React.FC<OverallResultsProps> = ({ results }) => {
   const [isSorted, setIsSorted] = useState<boolean>(true);
   const [sortedResults, setSortedResults] =
-    useState<{ studentId: string; grade: string }[]>(results);
+    useState<{ studentId: string; grade: string; points: string }[]>(results);
 
   useEffect(() => {
     if (isSorted) {
@@ -36,6 +36,7 @@ const OverallResults: React.FC<OverallResultsProps> = ({ results }) => {
           <tr>
             <th>Mokinio ID</th>
             <th>Įvertinimas</th>
+            <th>Taškai</th>
           </tr>
         </thead>
         <tbody>
@@ -43,6 +44,7 @@ const OverallResults: React.FC<OverallResultsProps> = ({ results }) => {
             <tr key={index}>
               <td>{result.studentId}</td>
               <td>{result.grade}</td>
+              <td>{result.points}</td>
             </tr>
           ))}
         </tbody>

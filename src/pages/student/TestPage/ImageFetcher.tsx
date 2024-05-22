@@ -33,7 +33,7 @@ const ImageFetcher: React.FC<ImageFetcherProps> = ({
   }, [filename, userEmail, testCode]);
 
   return (
-    <div>
+    <div className="my-4">
       {imageSrc ? (
         <img src={imageSrc} alt="Fetched from Firebase" />
       ) : (

@@ -359,6 +359,8 @@ const DashboardPage: React.FC = () => {
           title: data.test.title + " KOPIJA",
           isTestAccessible: false,
           questions: data.test.questions,
+          description: data.test.description,
+          specialSymbols: data.test.specialSymbols,
         },
       })
         .then(() => {

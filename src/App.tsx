@@ -58,7 +58,7 @@ function App() {
               npw.lt
             </a>
           </p>
-          <p>Paskutinį kartą atnaujinta: 2024-05-21</p>
+          <p>Paskutinį kartą atnaujinta: 2024-05-23</p>
         </footer>
       </AuthProvider>
     </BrowserRouter>

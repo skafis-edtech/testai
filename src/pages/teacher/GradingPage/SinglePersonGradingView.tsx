@@ -10,6 +10,8 @@ interface SinglePersonGradingViewProps {
   setGradingState: (gradingState: PrivateGrading["grades"][number]) => void;
   response: Execution[string]["responses"][number];
   questions: PrivateTestData["questions"];
+  testCode?: string;
+  email: string;
 }
 
 const SinglePersonGradingView: React.FC<SinglePersonGradingViewProps> = ({
@@ -17,6 +19,8 @@ const SinglePersonGradingView: React.FC<SinglePersonGradingViewProps> = ({
   setGradingState,
   response,
   questions,
+  testCode,
+  email,
 }) => {
   const updateGradedResponses = (
     number: string,
@@ -107,6 +111,9 @@ const SinglePersonGradingView: React.FC<SinglePersonGradingViewProps> = ({
             setPoints={(points) =>
               updateGradedResponses(question.number, points)
             }
+            imageFilename={question.imageFilename}
+            testCode={testCode}
+            email={email}
           />
         ))}
       </div>

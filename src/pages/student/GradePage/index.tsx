@@ -57,26 +57,30 @@ const GradePage: React.FC = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {grade.gradedResponses?.map((response, index) => (
-                          <tr
-                            key={index}
-                            className={
-                              response.isAdditional
-                                ? "bg-gray-300"
-                                : "bg-gray-200"
-                            }
-                          >
-                            <td>
-                              {response.number}{" "}
-                              {response.isAdditional ? "* (papildoma)" : ""}
-                            </td>
-                            <td>{response.answer}</td>
-                            <td>{response.correctAnswer}</td>
-                            <td>
-                              {response.points} t. iš {response.outOf} t.
-                            </td>
-                          </tr>
-                        ))}
+                        {grade.gradedResponses
+                          ?.sort(
+                            (a, b) => parseInt(a.number) - parseInt(b.number)
+                          )
+                          .map((response, index) => (
+                            <tr
+                              key={index}
+                              className={
+                                response.isAdditional
+                                  ? "bg-gray-300"
+                                  : "bg-gray-200"
+                              }
+                            >
+                              <td>
+                                {response.number}{" "}
+                                {response.isAdditional ? "* (papildoma)" : ""}
+                              </td>
+                              <td>{response.answer}</td>
+                              <td>{response.correctAnswer}</td>
+                              <td>
+                                {response.points} t. iš {response.outOf} t.
+                              </td>
+                            </tr>
+                          ))}
                       </tbody>
                     </table>
                   </div>
