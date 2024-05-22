@@ -42,7 +42,12 @@ const HomePage: React.FC = () => {
   return (
     <div className="input-page-container">
       <div className="test-starter-container">
-        <h1>Skafis testavimo aplinka</h1>
+        <h1 className="mb-0">Skafis testavimo aplinka</h1>
+        <p>
+          {" "}
+          Sena tinklapio versija su PUPP pasiruošimu
+          <a href="https://kontrass.web.app/old/index.html"> čia</a>
+        </p>
         <h2>
           DĖMESIO! Ši Skafis versija nėra pastovi! Nelaikykite platformoje
           ilgalaikių duomenų.
