@@ -8,7 +8,7 @@ const UserGuidePage: React.FC = () => {
           pavyzdžiui: mokinio ID "10a14sraige", testo kodas "ABCD".
         </h3>
         <h3>
-          Platformoje apart mygtukų testo atsakymų pateikimui, niekur neraste
+          Platformoje, apart mygtukų testo atsakymų pateikimui, niekur neraste
           mygtuko "Išsaugoti" - čia viskas išsaugoma realiu laiku. Tai, kas
           parašyta teksto laukelyje, jau iškart yra įrašyta ir į duombazę.
         </h3>

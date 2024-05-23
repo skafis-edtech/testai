@@ -38,6 +38,14 @@ const RegisterPage: React.FC = () => {
     <div className="centered-input-page-container">
       <form className="mb-4" onSubmit={registerUser}>
         <h1>Mokytojo registracija</h1>
+        <h2>
+          Šiuo metu savarankiška registracija išjungta, nes platforma nėra
+          stabili. Dėl platformos naudojimo kreipkitės į sistemos
+          administratorių el. paštu{" "}
+          <a href="mailto:naglis.suliokas@gmail.com">
+            naglis.suliokas@gmail.com
+          </a>
+        </h2>
         <input
           type="email"
           value={email}
