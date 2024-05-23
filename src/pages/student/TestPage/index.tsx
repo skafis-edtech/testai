@@ -114,6 +114,7 @@ const TestPage: React.FC = () => {
           )}
           {q.points > 1 ? (
             <textarea
+              autoComplete="off"
               value={answers.find((a) => a.number === q.number)?.answer}
               onChange={(e) =>
                 setAnswers(
@@ -128,6 +129,7 @@ const TestPage: React.FC = () => {
             ></textarea>
           ) : (
             <input
+              autoComplete="off"
               type="text"
               value={answers.find((a) => a.number === q.number)?.answer}
               onChange={(e) =>

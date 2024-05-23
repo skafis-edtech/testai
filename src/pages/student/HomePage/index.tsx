@@ -44,7 +44,6 @@ const HomePage: React.FC = () => {
       <div className="test-starter-container">
         <h1 className="mb-0">Skafis testavimo aplinka</h1>
         <p>
-          {" "}
           Sena tinklapio versija su PUPP pasiruošimu
           <a href="https://kontrass.web.app/old/index.html"> čia</a>
         </p>
@@ -55,6 +54,7 @@ const HomePage: React.FC = () => {
         <p>Jūsų ID ir testo kodas skelbiami mokytojo</p>
         <form onSubmit={gotoTest}>
           <input
+            autoComplete="off"
             type="text"
             name="studentId"
             placeholder="Įveskite savo ID"
@@ -62,6 +62,7 @@ const HomePage: React.FC = () => {
             onChange={(e) => setStudentId(e.target.value)}
           />
           <input
+            autoComplete="off"
             type="text"
             name="testCode"
             placeholder="Įveskite testo kodą"
