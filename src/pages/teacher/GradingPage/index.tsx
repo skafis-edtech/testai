@@ -130,48 +130,80 @@ const GradingPage: React.FC = () => {
           {testCode && <MakePublicButtons testCode={testCode} />}
         </div>
       </div>
-      {privateGradeData?.grades?.map((grade, index) => (
-        <div key={index}>
-          <div className="bg-gray-100 p-5 rounded-lg mb-20 mt-8 w-full shadow-md text-center">
-            <div>
-              <h3 className="text-2xl">
-                Mokinys {index + 1} iš {privateGradeData?.grades?.length}
-              </h3>
-              <h3 className="text-3xl my-8">
-                Mokinio ID: {Object.values(responsesData)[index]?.studentId}
-              </h3>
-            </div>
-            <SinglePersonGradingView
-              key={index}
-              gradingState={grade}
-              setGradingState={(gradingState) =>
-                set(
-                  ref(
-                    database,
-                    "/users/" +
-                      currentUser?.email?.replace(/\./g, "?") +
-                      "/tests/" +
-                      testCode +
-                      "/grading/"
-                  ),
+      {privateGradeData?.grades?.map((grade, index) => {
+        if (
+          Object.values(responsesData)[index]?.studentId ===
+          "testas paviešintas"
+        ) {
+          return (
+            <table key={index}>
+              <thead>
+                <tr>
+                  <th>Testas paviešintas</th>
+                  <th>
+                    {new Date(
+                      Object.values(responsesData)[index]?.timestamp
+                    ).toLocaleString("lt")}
+                  </th>
+                </tr>
+              </thead>
+            </table>
+          );
+        }
+        return (
+          <div key={index}>
+            <div className="bg-gray-100 p-5 rounded-lg mb-20 mt-8 w-full shadow-md text-center">
+              <div>
+                <h3 className="text-2xl">
+                  Mokinys {index + 1} iš{" "}
                   {
-                    ...privateGradeData,
-                    grades: [
-                      ...privateGradeData.grades.slice(0, index),
-                      gradingState,
-                      ...privateGradeData.grades.slice(index + 1),
-                    ],
+                    privateGradeData?.grades?.filter(
+                      (grade) => grade.student !== "testas paviešintas"
+                    ).length
                   }
-                )
-              }
-              response={Object.values(responsesData)[index]}
-              questions={questionsDataWithAnswers}
-              testCode={testCode}
-              email={currentUser?.email || "???"}
-            />
+                </h3>
+                <h3 className="text-3xl my-8">
+                  Mokinio ID: {Object.values(responsesData)[index]?.studentId}
+                </h3>
+                <p>
+                  Pateikta:{" "}
+                  {new Date(
+                    Object.values(responsesData)[index]?.timestamp
+                  ).toLocaleString("lt")}
+                </p>
+              </div>
+              <SinglePersonGradingView
+                key={index}
+                gradingState={grade}
+                setGradingState={(gradingState) =>
+                  set(
+                    ref(
+                      database,
+                      "/users/" +
+                        currentUser?.email?.replace(/\./g, "?") +
+                        "/tests/" +
+                        testCode +
+                        "/grading/"
+                    ),
+                    {
+                      ...privateGradeData,
+                      grades: [
+                        ...privateGradeData.grades.slice(0, index),
+                        gradingState,
+                        ...privateGradeData.grades.slice(index + 1),
+                      ],
+                    }
+                  )
+                }
+                response={Object.values(responsesData)[index]}
+                questions={questionsDataWithAnswers}
+                testCode={testCode}
+                email={currentUser?.email || "???"}
+              />
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
       <OverallResults
         results={
           privateGradeData?.grades?.map((grade) => ({
