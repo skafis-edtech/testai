@@ -13,9 +13,9 @@ const SupportPage: React.FC = () => {
           programos kodu, idėjomis, bendradarbiavimu arba, paprasčiausiai,
           pinigais. Ačiū labai!
         </h3>
-        <h1 className="mt-8">Naglis Šuliokas LT943250092929077836</h1>
+        <h1 className="mt-8">MB SKAFIS LT737300010188621353</h1>
         <h1 className="mb-8">
-          Pervedimo paskirtis: Skafis tinklapio parama + Jūsų žinutė
+          Pervedimo paskirtis: testai.skafis.lt savanoriška parama + Jūsų žinutė
         </h1>
         <h3>
           Tinklapio kodas:{" "}

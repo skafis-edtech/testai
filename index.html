@@ -9,5 +9,30 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: "AIzaSyAYUl8X2D06RRRYQ-Zrjq67Jkq2TnF2w7A",
+        authDomain: "testai-skafis.firebaseapp.com",
+        databaseURL:
+          "https://testai-skafis-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "testai-skafis",
+        storageBucket: "testai-skafis.appspot.com",
+        messagingSenderId: "85290631355",
+        appId: "1:85290631355:web:58f8907b7bfa4fc372a99e",
+        measurementId: "G-QP8BGFG8VN",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+    </script>
   </body>
 </html>

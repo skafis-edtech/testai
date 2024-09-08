@@ -49,16 +49,10 @@ function App() {
         </main>
         <footer>
           <p>
-            Platformos kūrėjo blog'as bei daugiau įdomių dalykų čia:{" "}
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://www.npw.lt"
-            >
-              npw.lt
-            </a>
+            © 2024 MB Skafis. Visos teisės saugomos. Susisiekite{" "}
+            <a>info@skafis.lt</a>
           </p>
-          <p>Paskutinį kartą atnaujinta: 2024-05-23</p>
+          <p>v1.0.0 - Paskutinį kartą atnaujinta: 2024-05-23</p>
         </footer>
       </AuthProvider>
     </BrowserRouter>
