@@ -50,7 +50,7 @@ function App() {
         <footer>
           <p>
             © 2024 MB Skafis. Visos teisės saugomos. Susisiekite{" "}
-            <a>info@skafis.lt</a>
+            <a href="mailto:info@skafis.lt">info@skafis.lt</a>
           </p>
           <p>v1.0.0 - Paskutinį kartą atnaujinta: 2024-05-23</p>
         </footer>

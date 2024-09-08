@@ -55,7 +55,10 @@ const LoginPage: React.FC = () => {
         </button>
       </form>
       <p>
-        Neturite paskyros? <a href="/register">Registruotis</a>
+        Neturite paskyros?{" "}
+        <a href="https://bankas.skafis.lt/register?redirect=https://testai.skafis.lt/login">
+          Registruotis
+        </a>
       </p>
       <p>
         Pamiršote slaptažodį? <a href="/recover-password">Atkurti</a>

@@ -12,7 +12,7 @@ const RecoverPasswordPage: React.FC = () => {
     sendPasswordResetEmail(auth, email)
       .then(() => {
         alert(
-          "Slaptažodžio atkūrimo laiškas sėkmingai išsiųstas iš noreply@testai-skafis.firebaseapp.com. Patikrinkite savo el. paštą."
+          "Slaptažodžio atkūrimo laiškas sėkmingai išsiųstas iš noreply@bankas-skafis.firebaseapp.com. Patikrinkite savo el. paštą."
         );
         navigate("/login");
       })

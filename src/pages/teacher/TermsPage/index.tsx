@@ -8,7 +8,7 @@ const TermsPage: React.FC = () => {
         saugojamas ir prieinamas platformos administratoriui (Nagliui Šuliokui)
         visą laiką iki išsiregistravimo (išsiregistruoti galima pateikus prašymą
         administratoriui el. paštu{" "}
-        <a href="mailto:naglis.suliokas@gmail.com">naglis.suliokas@gmail.com</a>
+        <a href="mailto:info@skafis.lt">info@skafis.lt</a>
         ). El. paštas bus naudojamas Jūsų prisijungimui, slaptažodžio atkūrimui
         bei mano, administratoriaus, Naglio Šulioko, susisiekimui su tikslu
         išsiaiškinti platformos naudojimo intensijas ir išspręsti kylančias
@@ -43,7 +43,7 @@ const TermsPage: React.FC = () => {
       <p>Platformos veikimo principus rasite "Naudotojo gide".</p>
       <p>
         Klausimus užduoti, pasiūlymus ar priekaištus reikšti el. paštu{" "}
-        <a href="mailto:naglis.suliokas@gmail.com">naglis.suliokas@gmail.com</a>
+        <a href="mailto:info@skafis.lt">info@skafis.lt</a>
       </p>
       <h1>
         Buvo įdėta daug darbo... Pasvarstykite <a href="/support">paremti</a>!
