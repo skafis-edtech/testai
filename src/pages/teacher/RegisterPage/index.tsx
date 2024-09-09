@@ -38,6 +38,10 @@ const RegisterPage: React.FC = () => {
     <div className="centered-input-page-container">
       <form className="mb-4" onSubmit={registerUser}>
         <h1>Mokytojo registracija</h1>
+        <p className="text-red-600">
+          Jei jau turite bankas.skafis.lt paskyrą, nesiregistruokite, o
+          susisiekite info@skafis.lt
+        </p>
         <input
           type="email"
           value={email}
@@ -69,8 +73,12 @@ const RegisterPage: React.FC = () => {
         <label>
           Sutinku su{" "}
           <a href="/terms" target="_blank">
-            taisyklėmis
+            testai.skafis.lt taisyklėmis
           </a>{" "}
+          ir{" "}
+          <a href="https://bankas.skafis.lt/about#terms" target="_blank">
+            bankas.skafis.lt taisyklėmis
+          </a>
         </label>
         <button type="submit">Registruotis</button>{" "}
       </form>

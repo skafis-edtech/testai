@@ -14,23 +14,9 @@ const firebaseConfig = {
   appId: "1:85290631355:web:58f8907b7bfa4fc372a99e",
 };
 
-const bankasFirebaseConfig = {
-  apiKey: "AIzaSyC3Wqume9D4C4tewjmR1FmkyklkDGGFKpw",
-  authDomain: "bankas-skafis.firebaseapp.com",
-  databaseURL:
-    "https://bankas-skafis-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "bankas-skafis",
-  storageBucket: "bankas-skafis.appspot.com",
-  messagingSenderId: "723059913775",
-  appId: "1:723059913775:web:fb0bd4b7f84b8ee64302da",
-  measurementId: "G-39HR8GJ1JP",
-};
-
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const storage = getStorage(app);
-
-const bankasApp = initializeApp(bankasFirebaseConfig, "bankas");
-const auth = getAuth(bankasApp);
+const auth = getAuth(app);
 
 export { auth, database, storage };

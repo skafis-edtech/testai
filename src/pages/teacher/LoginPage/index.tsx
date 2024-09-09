@@ -35,6 +35,7 @@ const LoginPage: React.FC = () => {
   return (
     <div className="centered-input-page-container">
       <h1>Mokytojo prisijungimas</h1>
+
       <form className="mb-4" onSubmit={loginUser}>
         <input
           type="email"
@@ -56,9 +57,10 @@ const LoginPage: React.FC = () => {
       </form>
       <p>
         Neturite paskyros?{" "}
-        <a href="https://bankas.skafis.lt/register?redirect=https://testai.skafis.lt/login">
+        {/* <a href="https://bankas.skafis.lt/register?redirect=https://testai.skafis.lt/login">
           Registruotis
-        </a>
+        </a> */}
+        <a href="/register">Registruotis</a>
       </p>
       <p>
         Pamiršote slaptažodį? <a href="/recover-password">Atkurti</a>
