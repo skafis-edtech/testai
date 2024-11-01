@@ -1,0 +1,48 @@
+{
+  "rules": {
+    "testCodesInUse": {
+      ".read": "auth != null",
+      ".write": "auth != null",
+      "$index": {
+        ".write": "!data.exists()"
+      }
+    },
+    "accessibleGrades": {
+      ".read": "true",
+      "$gradeId": {
+        ".write": "auth != null && ( !data.exists() || data.child('writerEmail').val() === auth.token.email )"
+      }
+    },
+    "accessibleTests": {
+      ".read": "true",
+      "$testId": {
+        ".write": "auth != null && ( !data.exists() || data.child('writerEmail').val() === auth.token.email )"
+      }
+    },
+    "execution": {
+      ".write": "newData.exists()",
+      "$code": {
+        ".write": "newData.exists() && !data.exists()",
+        ".read": "auth != null && data.child('readerEmail').val() === auth.token.email",
+        "responses": {
+          ".write": "newData.exists()"
+        },
+        "feedback": {
+          ".write": "newData.exists()"
+        },
+        "fullscreenExits": {
+          ".write": "newData.exists()"
+        }
+      }
+    },
+    "users": {
+      "$userEmail": {
+        ".write": "auth != null && $userEmail === auth.token.email.replace('.', '?')",
+        ".read": "auth != null && data.child('writerEmail').val() === auth.token.email",
+        "$other": {
+          ".validate": "auth != null && $userEmail === auth.token.email.replace('.', '?')"
+        }
+      }
+    }
+  }
+}
